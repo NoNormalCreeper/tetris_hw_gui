@@ -1,0 +1,61 @@
+```gitignore
+# C++ Qt Project Template
+
+# Build directories
+build/
+debug/
+release/
+**/debug/
+**/release/
+**/build-*/
+
+# Qt generated files
+*.o
+*.obj
+*.moc
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*.qm
+*.ts
+
+# Executables and libraries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# User-specific files (Qt Creator, etc.)
+*.pro.user
+*.pro.user.*
+*.creator.user
+*.creator.user.*
+*.qbs.user
+*.qbs.user.*
+
+# CLion specific files
+.idea/
+cmake-build-*/
+
+# Visual Studio specific files
+*.suo
+*.user
+*.vcxproj.user
+*.vcxproj.filters
+*.sln.docstates
+
+# Other temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+```
