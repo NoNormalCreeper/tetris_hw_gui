@@ -11,9 +11,21 @@ namespace Ui {
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    // 设置按钮点击事件
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+int MainWindow::addCount() {
+    count++;
+    return count;
+}
+
+void MainWindow::onButtonClicked() {
+    const int currentCount = addCount();
+    ui->label->setText(QString("Count: %1").arg(QString::number(currentCount)));
 }
 } // Ui

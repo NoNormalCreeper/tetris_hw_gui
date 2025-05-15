@@ -19,6 +19,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+    int count = 0;
+    int addCount(); // 增加计数器，返回当前计数值
+    void onButtonClicked(); // 按钮点击事件处理函数
+
+
 private:
     Ui::MainWindow *ui;
 };
