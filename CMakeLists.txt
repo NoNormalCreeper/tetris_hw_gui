@@ -15,7 +15,19 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(tetris_gui main.cpp)
+add_executable(tetris_gui src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.ui
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.ui
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.ui
+        src/ui_MainWindow.h)
 target_link_libraries(tetris_gui
         Qt::Core
         Qt::Gui
