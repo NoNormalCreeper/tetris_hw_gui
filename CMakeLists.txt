@@ -31,6 +31,10 @@ add_executable(tetris_gui src/main.cpp
         src/ui_MainWindow.h
         src/cell_drawing.cpp
         src/cell_drawing.cpp
+        src/Game.cpp
+        src/Game.h
+        src/Block.cpp
+        src/Block.h
 )
 target_link_libraries(tetris_gui
         Qt::Core
