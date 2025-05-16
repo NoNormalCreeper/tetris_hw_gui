@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Ui::MainWindow</class>
  <widget class="QWidget" name="Ui::MainWindow">
@@ -39,10 +39,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3" />
+      <layout class="QVBoxLayout" name="verticalLayout_3"/>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
+      <layout class="QVBoxLayout" name="gridArea">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -4649,12 +4649,12 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4" />
+      <layout class="QVBoxLayout" name="verticalLayout_4"/>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources />
- <connections />
+ <resources/>
+ <connections/>
 </ui>

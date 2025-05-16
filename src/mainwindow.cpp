@@ -11,12 +11,17 @@ namespace Ui {
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    // 设置按钮点击事件
-    // connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
+
+    // tests
+    TestCellDrawing();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::TestCellDrawing() {
+    setCellColor({0, 5}, "red");
 }
 
 int MainWindow::addCount() {
