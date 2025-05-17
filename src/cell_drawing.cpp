@@ -10,15 +10,15 @@
 
 static auto to_top = [](const auto y) -> auto { return Game::game_height - y - 1; };
 
-int Ui::MainWindow::getFrameId(const std::tuple<int, int> &position) {
-    const auto to_top_border = to_top(std::get<1>(position));
-    const auto to_left_border = std::get<0>(position) + 1;
+int Ui::MainWindow::getFrameId(const Pos &position) {
+    const auto to_top_border = to_top(position.y);
+    const auto to_left_border = position.x + 1;
     return 10 * to_top_border + to_left_border;
 }
 
-QFrame* Ui::MainWindow::getCell(const std::tuple<int, int> &position) const {
+QFrame* Ui::MainWindow::getCell(const Pos &position) const {
     const auto object_name = QString("frame_%1").arg(QString::number(getFrameId(position)));
-    const auto horizon_name = QString("horizontalLayout_%1").arg(QString::number(std::get<1>(position) + 1));
+    const auto horizon_name = QString("horizontalLayout_%1").arg(QString::number(position.y + 1));
 
     const auto horizon = qobject_cast<QHBoxLayout*>(ui->gridArea->findChild<QHBoxLayout*>(horizon_name));
     if (!horizon) {
@@ -44,7 +44,7 @@ auto bgColorStylesheet(const QString& file_path) {
     return QString("border-image: url(:/%1)").arg(file_path);
 }
 
-void Ui::MainWindow::setCellColor(const std::tuple<int, int> &position, const QString &color) {
+void Ui::MainWindow::setCellColor(const Pos &position, const QString &color) {
     const auto frame = getCell(position);
     if (frame) {
         frame->setStyleSheet(bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color)));;

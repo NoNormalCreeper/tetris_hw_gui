@@ -7,6 +7,7 @@
 
 #include <QFrame>
 #include <QWidget>
+#include "Pos.h"
 
 namespace Ui {
 QT_BEGIN_NAMESPACE
@@ -32,9 +33,9 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    static int getFrameId(const std::tuple<int, int> &position);
-    QFrame* getCell(const std::tuple<int, int> &position) const;
-    void setCellColor(const std::tuple<int, int> &position, const QString &color);
+    static int getFrameId(const Pos &position);
+    QFrame* getCell(const Pos &position) const;
+    void setCellColor(const Pos &position, const QString &color);
     void setNextBlockWidget(const QString &color);
     void setScoreWidgetNumber(const int score);
 };
