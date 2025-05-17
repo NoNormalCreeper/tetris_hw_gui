@@ -28,9 +28,4 @@ int MainWindow::addCount() {
     count++;
     return count;
 }
-
-void MainWindow::onButtonClicked() {
-    const int currentCount = addCount();
-    ui->label->setText(QString("Count: %1").arg(QString::number(currentCount)));
-}
 } // Ui

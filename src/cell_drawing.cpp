@@ -16,7 +16,7 @@ int Ui::MainWindow::getFrameId(const std::tuple<int, int> &position) {
     return 10 * to_top_border + to_left_border;
 }
 
-QFrame* Ui::MainWindow::getCell(const std::tuple<int, int> &position) {
+QFrame* Ui::MainWindow::getCell(const std::tuple<int, int> &position) const {
     const auto object_name = QString("frame_%1").arg(QString::number(getFrameId(position)));
     const auto horizon_name = QString("horizontalLayout_%1").arg(QString::number(std::get<1>(position) + 1));
 
@@ -26,6 +26,7 @@ QFrame* Ui::MainWindow::getCell(const std::tuple<int, int> &position) {
         return nullptr;
     }
 
+    // In fact im not fully understand...
     for (int i = 0; i < horizon->count(); ++i) {
         if (const auto widget = horizon->itemAt(i)->widget(); widget && widget->objectName() == object_name) {
             if (auto frame = qobject_cast<QFrame*>(widget); frame) {
