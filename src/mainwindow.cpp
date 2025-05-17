@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // tests
     TestCellDrawing();
+    TestNextBlockDrawing();
+    TestDigitNumber();
 }
 
 MainWindow::~MainWindow() {
@@ -22,6 +24,14 @@ MainWindow::~MainWindow() {
 
 void MainWindow::TestCellDrawing() {
     setCellColor({0, 5}, "red");
+}
+
+void MainWindow::TestNextBlockDrawing() {
+    setNextBlockWidget("blue");
+}
+
+void MainWindow::TestDigitNumber() {
+    setScoreWidgetNumber(114514);
 }
 
 int MainWindow::addCount() {

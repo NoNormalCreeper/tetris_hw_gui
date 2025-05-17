@@ -39,15 +39,34 @@ QFrame* Ui::MainWindow::getCell(const std::tuple<int, int> &position) const {
     return nullptr;
 }
 
-auto bgColorStylesheet(const QString& color) {
-    return QString("border-image: url(:/cells/cells/%1_cell.png)").arg(color);
+auto bgColorStylesheet(const QString& file_path) {
+    // example: "cells/cells/red_cell.png"
+    return QString("border-image: url(:/%1)").arg(file_path);
 }
 
 void Ui::MainWindow::setCellColor(const std::tuple<int, int> &position, const QString &color) {
     const auto frame = getCell(position);
     if (frame) {
-        frame->setStyleSheet(bgColorStylesheet(color));
+        frame->setStyleSheet(bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color)));;
         return;
     }
     throw std::runtime_error("Frame to set color not found");
+}
+
+void Ui::MainWindow::setNextBlockWidget(const QString &color) {
+    const auto nextBlockWidget = qobject_cast<QWidget*>(ui->nextBlockWidget);
+    if (nextBlockWidget) {
+        nextBlockWidget->setStyleSheet(bgColorStylesheet(QString("blocks/blocks/%1_block.png").arg(color)));
+        return;
+    }
+    throw std::runtime_error("Next block widget not found");
+}
+
+void Ui::MainWindow::setScoreWidgetNumber(const int score) {
+    const auto scoreWidget = qobject_cast<QLCDNumber*>(ui->scoreNumber);
+    if (scoreWidget) {
+        scoreWidget->display(score);
+        return;
+    }
+    throw std::runtime_error("Score widget not found");
 }
