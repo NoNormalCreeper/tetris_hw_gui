@@ -50,7 +50,7 @@ void Ui::MainWindow::setCellColor(const Pos &position, const QString &color) {
         frame->setStyleSheet(bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color)));;
         return;
     }
-    throw std::runtime_error("Frame to set color not found");
+    throw std::runtime_error(QString("Cell frame '%1' not found").arg(QString::number(getFrameId(position))).toStdString());
 }
 
 void Ui::MainWindow::setNextBlockWidget(const QString &color) {

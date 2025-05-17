@@ -17,5 +17,5 @@ const Block& Block::getBlockByLabel(const char label) const {
             return block;
         }
     }
-    throw std::runtime_error("Block not found");
+    throw std::runtime_error("Block label '" + std::to_string(label) + "' not found");
 }
