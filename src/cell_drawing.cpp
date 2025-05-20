@@ -62,11 +62,20 @@ void Ui::MainWindow::setNextBlockWidget(const QString &color) {
     throw std::runtime_error("Next block widget not found");
 }
 
-void Ui::MainWindow::setScoreWidgetNumber(const int score) {
+void Ui::MainWindow::setScoreWidgetNumber(int score) {
     const auto scoreWidget = qobject_cast<QLCDNumber*>(ui->scoreNumber);
     if (scoreWidget) {
         scoreWidget->display(score);
         return;
     }
     throw std::runtime_error("Score widget not found");
+}
+
+void Ui::MainWindow::putBlockOnBoard(const Block &block, const Pos &anchor) {
+}
+
+void Ui::MainWindow::removeBlockFromBoard(const Block &block, const Pos &anchor) {
+}
+
+void Ui::MainWindow::moveBlock(const Block &block, const Pos &anchor, const Pos &new_anchor) {
 }

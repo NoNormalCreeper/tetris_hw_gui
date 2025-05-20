@@ -7,6 +7,8 @@
 
 #include <QFrame>
 #include <QWidget>
+
+#include "Block.h"
 #include "Pos.h"
 
 namespace Ui {
@@ -37,7 +39,11 @@ private:
     QFrame* getCell(const Pos &position) const;
     void setCellColor(const Pos &position, const QString &color);
     void setNextBlockWidget(const QString &color);
-    void setScoreWidgetNumber(const int score);
+    void setScoreWidgetNumber(int score);
+
+    void putBlockOnBoard(const Block &block, const Pos &anchor);
+    void removeBlockFromBoard(const Block &block, const Pos &anchor);
+    void moveBlock(const Block& block, const Pos& anchor, const Pos& new_anchor);
 };
 } // Ui
 
