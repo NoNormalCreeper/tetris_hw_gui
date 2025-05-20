@@ -20,8 +20,15 @@ public:
         : label(label), color(std::move(color)), occupied(std::move(occupied)), anchor(anchor) {}
 
     static const Block& getBlockByLabel(char label);
-    const Block& rotate() const;    // 返回顺时针旋转90度的新方块
+
+    const Block rotate() const;    // 返回顺时针旋转90度的新方块
 };
+
+namespace k_Block {
+    const auto I = Block('I', "lightblue", {Pos(0, 0), Pos(1, 0), Pos(2, 0), Pos(3, 0)});
+
+    const auto list = std::vector<Block>{I};
+}
 
 
 #endif //BLOCK_H
