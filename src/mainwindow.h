@@ -30,6 +30,7 @@ public:
     void TestCellDrawing(); // 测试单元格绘制函数
     void TestNextBlockDrawing();
     void TestDigitNumber();
+    void TestBlockDrawing();
 
 
 private:
@@ -41,8 +42,8 @@ private:
     void setNextBlockWidget(const QString &color);
     void setScoreWidgetNumber(int score);
 
-    void putBlockOnBoard(const Block &block, const Pos &anchor);
-    void removeBlockFromBoard(const Block &block, const Pos &anchor);
+    void drawBlockOnBoard(const Block &block, const Pos &anchor);
+    void eraseBlockFromBoard(const Block &block, const Pos &anchor);
     void moveBlock(const Block& block, const Pos& anchor, const Pos& new_anchor);
 };
 } // Ui

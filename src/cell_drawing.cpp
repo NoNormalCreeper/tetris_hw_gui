@@ -47,7 +47,11 @@ auto bgColorStylesheet(const QString& file_path) {
 void Ui::MainWindow::setCellColor(const Pos &position, const QString &color) {
     const auto frame = getCell(position);
     if (frame) {
-        frame->setStyleSheet(bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color)));;
+        auto stylesheet = QString("");
+        if (color != nullptr) {  // 若传入 color 为 nullptr，则重置为默认背景
+            stylesheet = bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color));
+        }
+        frame->setStyleSheet(stylesheet);
         return;
     }
     throw std::runtime_error(QString("Cell frame '%1' not found").arg(QString::number(getFrameId(position))).toStdString());
@@ -71,11 +75,21 @@ void Ui::MainWindow::setScoreWidgetNumber(int score) {
     throw std::runtime_error("Score widget not found");
 }
 
-void Ui::MainWindow::putBlockOnBoard(const Block &block, const Pos &anchor) {
+void Ui::MainWindow::drawBlockOnBoard(const Block &block, const Pos &anchor) {
+    for (const auto &pos : block.occupied) {
+        const auto cell_pos = anchor + (pos - block.anchor);
+        setCellColor(cell_pos, block.color);
+    }
 }
 
-void Ui::MainWindow::removeBlockFromBoard(const Block &block, const Pos &anchor) {
+void Ui::MainWindow::eraseBlockFromBoard(const Block &block, const Pos &anchor) {
+    for (const auto &pos : block.occupied) {
+        const auto cell_pos = anchor + (pos - block.anchor);
+        setCellColor(cell_pos, nullptr);
+    }
 }
 
 void Ui::MainWindow::moveBlock(const Block &block, const Pos &anchor, const Pos &new_anchor) {
+    eraseBlockFromBoard(block, anchor);
+    drawBlockOnBoard(block, new_anchor);
 }

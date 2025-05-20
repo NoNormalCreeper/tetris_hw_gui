@@ -7,6 +7,8 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 
+#include "Block.h"
+
 namespace Ui {
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::MainWindow) {
@@ -16,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     TestCellDrawing();
     TestNextBlockDrawing();
     TestDigitNumber();
+    TestBlockDrawing();
 }
 
 MainWindow::~MainWindow() {
@@ -32,6 +35,11 @@ void MainWindow::TestNextBlockDrawing() {
 
 void MainWindow::TestDigitNumber() {
     setScoreWidgetNumber(114514);
+}
+
+void MainWindow::TestBlockDrawing() {
+    drawBlockOnBoard(k_Block::I, Pos(6, 3));
+    drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
 }
 
 int MainWindow::addCount() {
