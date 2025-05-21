@@ -21,14 +21,21 @@ public:
 
     static const Block& getBlockByLabel(char label);
 
-    const Block rotate() const;    // 返回顺时针旋转90度的新方块
+    [[nodiscard]] const Block rotate() const;    // 返回顺时针旋转90度的新方块
 };
 
 namespace k_Block {
+    // 方块类型常量
     const auto I = Block('I', "lightblue", {Pos(0, 0), Pos(1, 0), Pos(2, 0), Pos(3, 0)});
+    // TODO: 补全其他方块类型
 
-    const auto list = std::vector<Block>{I};
+    const auto list = std::vector{I};
 }
+
+using Action = struct { // 玩家一次操作的动作
+    Block block;    // 旋转后的当前方块
+    Pos anchor;
+};
 
 
 #endif //BLOCK_H
