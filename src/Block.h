@@ -21,7 +21,7 @@ public:
 
     static const Block& getBlockByLabel(char label);
 
-    [[nodiscard]] const Block rotate() const;    // 返回顺时针旋转90度的新方块
+    [[nodiscard]] Block rotate() const;    // 返回顺时针旋转90度的新方块
 };
 
 namespace k_Block {

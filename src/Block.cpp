@@ -14,7 +14,7 @@ const Block& Block::getBlockByLabel(const char label) {
     throw std::runtime_error("Block label '" + std::to_string(label) + "' not found");
 }
 
-const Block Block::rotate() const {
+Block Block::rotate() const {
     std::vector<Pos> new_occupied;
     new_occupied.reserve(this->occupied.size());
 

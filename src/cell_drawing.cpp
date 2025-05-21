@@ -29,7 +29,7 @@ QFrame* Ui::MainWindow::getCell(const Pos &position) const {
     // In fact im not fully understand...
     for (int i = 0; i < horizon->count(); ++i) {
         if (const auto widget = horizon->itemAt(i)->widget(); widget && widget->objectName() == object_name) {
-            if (auto frame = qobject_cast<QFrame*>(widget); frame) {
+            if (const auto frame = qobject_cast<QFrame*>(widget); frame) {
                 return frame;
             }
         }
@@ -66,7 +66,7 @@ void Ui::MainWindow::setNextBlockWidget(const QString &color) {
     throw std::runtime_error("Next block widget not found");
 }
 
-void Ui::MainWindow::setScoreWidgetNumber(int score) {
+void Ui::MainWindow::setScoreWidgetNumber(const int score) const {
     const auto scoreWidget = qobject_cast<QLCDNumber*>(ui->scoreNumber);
     if (scoreWidget) {
         scoreWidget->display(score);

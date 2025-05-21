@@ -12,8 +12,7 @@ public:
     int x;
     int y;
 
-    Pos(const int x, const int y) : x(x), y(y) {
-    }
+    Pos(const int x, const int y) : x(x), y(y) {}
 
     Pos() : x(0), y(0) {}
 

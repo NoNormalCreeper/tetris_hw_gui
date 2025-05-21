@@ -37,10 +37,10 @@ private:
     Ui::MainWindow *ui;
 
     static int getFrameId(const Pos &position);
-    QFrame* getCell(const Pos &position) const;
+    [[nodiscard]] QFrame* getCell(const Pos &position) const;
     void setCellColor(const Pos &position, const QString &color);
     void setNextBlockWidget(const QString &color);
-    void setScoreWidgetNumber(int score);
+    void setScoreWidgetNumber(int score) const;
 
     void drawBlockOnBoard(const Block &block, const Pos &anchor);
     void eraseBlockFromBoard(const Block &block, const Pos &anchor);
