@@ -9,49 +9,58 @@
 
 #include "Block.h"
 
-namespace Ui {
-MainWindow::MainWindow(QWidget *parent) :
-    QWidget(parent), ui(new Ui::MainWindow) {
-    ui->setupUi(this);
+namespace Ui
+{
+    MainWindow::MainWindow(QWidget *parent) :
+        QWidget(parent), ui(new Ui::MainWindow)
+    {
+        ui->setupUi(this);
 
-    this->context = Context();
+        this->context = Context();
 
-    // connect timer timeout signal
-    // TODO: timer 的初始化
-    connect(&timer, &QTimer::timeout, this, [&]() {
-        // TODO: 实现此处的游戏主循环
-    });
+        // connect timer timeout signal
+        // TODO: timer 的初始化
+        connect(&timer, &QTimer::timeout, this, [&]()
+        {
+            // TODO: 实现此处的游戏主循环
+        });
 
-    // tests
-    TestCellDrawing();
-    TestNextBlockDrawing();
-    TestDigitNumber();
-    TestBlockDrawing();
-}
+        // tests
+        TestCellDrawing();
+        TestNextBlockDrawing();
+        TestDigitNumber();
+        TestBlockDrawing();
+    }
 
-MainWindow::~MainWindow() {
-    delete ui;
-}
+    MainWindow::~MainWindow()
+    {
+        delete ui;
+    }
 
-void MainWindow::TestCellDrawing() {
-    setCellColor({0, 5}, "red");
-}
+    void MainWindow::TestCellDrawing()
+    {
+        setCellColor({0, 5}, "red");
+    }
 
-void MainWindow::TestNextBlockDrawing() {
-    setNextBlockWidget("blue");
-}
+    void MainWindow::TestNextBlockDrawing()
+    {
+        setNextBlockWidget("blue");
+    }
 
-void MainWindow::TestDigitNumber() {
-    setScoreWidgetNumber(114514);
-}
+    void MainWindow::TestDigitNumber()
+    {
+        setScoreWidgetNumber(114514);
+    }
 
-void MainWindow::TestBlockDrawing() {
-    drawBlockOnBoard(k_Block::I, Pos(6, 3));
-    drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
-}
+    void MainWindow::TestBlockDrawing()
+    {
+        drawBlockOnBoard(k_Block::I, Pos(6, 3));
+        drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
+    }
 
-int MainWindow::addCount() {
-    count++;
-    return count;
-}
+    int MainWindow::addCount()
+    {
+        count++;
+        return count;
+    }
 } // Ui

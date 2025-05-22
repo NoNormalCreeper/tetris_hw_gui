@@ -13,54 +13,60 @@
 #include "Context.h"
 #include "Pos.h"
 
-namespace Ui {
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+namespace Ui
+{
+    QT_BEGIN_NAMESPACE
 
-class MainWindow : public QWidget {
-Q_OBJECT
+    namespace Ui
+    {
+        class MainWindow;
+    }
 
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    QT_END_NAMESPACE
 
-    int count = 0;
-    int addCount(); // 增加计数器，返回当前计数值
-    // void onButtonClicked(); // 按钮点击事件处理函数
+    class MainWindow : public QWidget
+    {
+        Q_OBJECT
 
-    Context context;
-    QTimer timer;   // 定时器，用于控制游戏逻辑的执行频率
+    public:
+        explicit MainWindow(QWidget *parent = nullptr);
+        ~MainWindow() override;
 
-    void TestCellDrawing(); // 测试单元格绘制函数
-    void TestNextBlockDrawing();
-    void TestDigitNumber();
-    void TestBlockDrawing();
+        int count = 0;
+        int addCount(); // 增加计数器，返回当前计数值
+        // void onButtonClicked(); // 按钮点击事件处理函数
 
+        Context context;
+        QTimer timer; // 定时器，用于控制游戏逻辑的执行频率
 
-private:
-    Ui::MainWindow *ui;
+        void TestCellDrawing(); // 测试单元格绘制函数
+        void TestNextBlockDrawing();
+        void TestDigitNumber();
+        void TestBlockDrawing();
 
-    // 渲染相关函数
-    static int getFrameId(const Pos &position);
-    [[nodiscard]] QFrame* getCell(const Pos &position) const;
-    void setCellColor(const Pos &position, const std::optional<QString> &color);
-    void setNextBlockWidget(const QString &color);
-    void setScoreWidgetNumber(int score) const;
-    void drawBlockOnBoard(const Block &block, const Pos &anchor);
-    void eraseBlockFromBoard(const Block &block, const Pos &anchor);
-    void moveBlock(const Block& block, const Pos& anchor, const Pos& new_anchor);
-    void syncBoardToUi(const Context& ctx);
+    private:
+        Ui::MainWindow *ui;
 
-    // 事件处理相关函数
-    void keyHoldEvent(const QKeyEvent &event);
-    void keyReleaseEvent(const QKeyEvent &event);
+        // 渲染相关函数
+        static int getFrameId(const Pos &position);
+        [[nodiscard]] QFrame *getCell(const Pos &position) const;
+        void setCellColor(const Pos &position, const std::optional<QString> &color);
+        void setNextBlockWidget(const QString &color);
+        void setScoreWidgetNumber(int score) const;
+        void drawBlockOnBoard(const Block &block, const Pos &anchor);
+        void eraseBlockFromBoard(const Block &block, const Pos &anchor);
+        void moveBlock(const Block &block, const Pos &anchor, const Pos &new_anchor);
+        void syncBoardToUi(const Context &ctx);
 
-    // 游戏主循环相关函数
-    void onTimeOut(Context &ctx);   // TODO: （该函数签名为暂定）实现游戏主循环的超时处理函数
+        // 事件处理相关函数
+        void keyHoldEvent(const QKeyEvent &event);
+        void keyReleaseEvent(const QKeyEvent &event);
 
-    // 菜单等其他界面相关函数
-};
+        // 游戏主循环相关函数
+        void onTimeOut(Context &ctx); // TODO: （该函数签名为暂定）实现游戏主循环的超时处理函数
+
+        // 菜单等其他界面相关函数
+    };
 } // Ui
 
 #endif //MAINWINDOW_H

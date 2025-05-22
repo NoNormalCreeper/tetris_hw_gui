@@ -6,33 +6,42 @@
 #define POS_H
 
 
-
-class Pos {
+class Pos
+{
 public:
     int x;
     int y;
 
-    Pos(const int x, const int y) : x(x), y(y) {}
+    Pos(const int x, const int y) :
+        x(x), y(y)
+    {
+    }
 
-    Pos() : x(0), y(0) {}
+    Pos() :
+        x(0), y(0)
+    {
+    }
 
-    bool operator==(const Pos &other) const {
+    bool operator==(const Pos &other) const
+    {
         return x == other.x && y == other.y;
     }
 
-    bool operator!=(const Pos &other) const {
+    bool operator!=(const Pos &other) const
+    {
         return !(*this == other);
     }
 
-    Pos operator+(const Pos &other) const {
+    Pos operator+(const Pos &other) const
+    {
         return Pos(x + other.x, y + other.y);
     }
 
-    Pos operator-(const Pos &other) const {
+    Pos operator-(const Pos &other) const
+    {
         return Pos(x - other.x, y - other.y);
     }
 };
-
 
 
 #endif //POS_H
