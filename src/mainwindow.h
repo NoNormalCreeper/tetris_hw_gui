@@ -7,6 +7,7 @@
 
 #include <QFrame>
 #include <QWidget>
+#include <QTimer>
 
 #include "Block.h"
 #include "Context.h"
@@ -27,6 +28,9 @@ public:
     int count = 0;
     int addCount(); // 增加计数器，返回当前计数值
     // void onButtonClicked(); // 按钮点击事件处理函数
+
+    Context context;
+    QTimer timer;   // 定时器，用于控制游戏逻辑的执行频率
 
     void TestCellDrawing(); // 测试单元格绘制函数
     void TestNextBlockDrawing();
@@ -49,10 +53,11 @@ private:
     void syncBoardToUi(const Context& ctx);
 
     // 事件处理相关函数
-    void KeyHoldEvent(const QKeyEvent &event);
-    void KeyReleaseEvent(const QKeyEvent &event);
+    void keyHoldEvent(const QKeyEvent &event);
+    void keyReleaseEvent(const QKeyEvent &event);
 
     // 游戏主循环相关函数
+    void onTimeOut(Context &ctx);   // TODO: （该函数签名为暂定）实现游戏主循环的超时处理函数
 
     // 菜单等其他界面相关函数
 };

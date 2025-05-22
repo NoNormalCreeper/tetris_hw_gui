@@ -14,6 +14,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    this->context = Context();
+
+    // connect timer timeout signal
+    // TODO: timer 的初始化
+    connect(&timer, &QTimer::timeout, this, [&]() {
+        // TODO: 实现此处的游戏主循环
+    });
+
     // tests
     TestCellDrawing();
     TestNextBlockDrawing();

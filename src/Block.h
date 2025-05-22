@@ -33,7 +33,7 @@ namespace k_Block {
 }
 
 using Action = struct { // 玩家一次操作的动作
-    Block block;    // 旋转后的当前方块
+    const Block* block;    // 旋转后的当前方块
     Pos anchor;
 };
 

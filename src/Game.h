@@ -19,12 +19,15 @@ public:
     // 游戏数据
     std::array<std::array<std::optional<char>, game_width>, game_height> game_board; // 游戏区域
     int score = 0; // 当前分数，负数代表游戏结束的最终得分
-    Block& next_block;
+    const Block* next_block;
 
     // 游戏当前操作状态
     Action current_action;
 
     Game(); // TODO
+
+private:
+    const Action& setInitAction(const Block* current_block); // 根据当前方块获取初始的方块位置
 };
 
 
