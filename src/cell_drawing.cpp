@@ -107,9 +107,10 @@ void Ui::MainWindow::moveBlock(const Block &block, const Pos &anchor, const Pos 
     drawBlockOnBoard(block, new_anchor);
 }
 
-void Ui::MainWindow::syncBoardToUi(const Context &ctx)
+void Ui::MainWindow::syncBoardAndActionToUi(const Context &ctx)
 {
     const auto &game = ctx.game;
+    // draw game board
     for (int x = 0; x < game.game_width; ++x) {
         for (int y = 0; y < game.game_height; ++y) {
             const auto cell_pos = Pos(x, y);
@@ -117,10 +118,17 @@ void Ui::MainWindow::syncBoardToUi(const Context &ctx)
 
             if (!cell_content.has_value()) {
                 setCellColor(cell_pos, std::nullopt);
-                return;
+            } else {
+                const auto &cell = Block::getBlockByLabel(cell_content.value());
+                setCellColor(cell_pos, std::optional(cell.color));
             }
-            const auto &cell = Block::getBlockByLabel(cell_content.value());
-            setCellColor(cell_pos, std::optional(cell.color));
         }
+    }
+
+    // draw current block in action
+    const auto& [block, anchor] = game.current_action;
+    for (const auto& cell : block->occupied) {
+        const auto cell_pos = anchor + (cell - block->anchor);
+        setCellColor(cell_pos, std::optional(block->color));
     }
 }

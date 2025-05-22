@@ -56,7 +56,7 @@ namespace Ui
         void drawBlockOnBoard(const Block &block, const Pos &anchor);
         void eraseBlockFromBoard(const Block &block, const Pos &anchor);
         void moveBlock(const Block &block, const Pos &anchor, const Pos &new_anchor);
-        void syncBoardToUi(const Context &ctx);
+        void syncBoardAndActionToUi(const Context &ctx);
 
         // 事件处理相关函数
         void keyHoldEvent(const QKeyEvent &event);
