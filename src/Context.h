@@ -7,9 +7,7 @@
 #include "Game.h"
 #include "Repository.h"
 
-
-enum Status
-{
+enum Status {
     MAIN_MENU,
     PLAYING,
     PAUSE,
@@ -17,15 +15,13 @@ enum Status
     SETTINGS_MENU,
 }; // TODO: to be coutinued...
 
-class Context
-{
+class Context {
 public:
     Status status = MAIN_MENU; // 游戏状态，默认为主菜单
-    Game game; // 游戏对象
-    Repository repository; // 数据库对象
+    Game game;                 // 游戏对象
+    Repository repository;     // 数据库对象
 
     Context(); // TODO
 };
-
 
 #endif //CONTEXT_H

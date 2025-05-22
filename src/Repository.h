@@ -8,12 +8,9 @@
 #include <optional>
 #include <string>
 
-using RepoData = struct
-{
-}; // TODO: Define the structure of RepoData
+using RepoData = struct {}; // TODO: Define the structure of RepoData
 
-class Repository
-{
+class Repository {
 public:
     std::string file_path;
     std::optional<RepoData> data;
@@ -21,9 +18,8 @@ public:
     void read();
     void write();
 
-    Repository(const std::string &file_path);
+    explicit Repository(const std::string& file_path);
     ~Repository() = default;
 };
 
-
-#endif //REPOSITORY_H
+#endif // REPOSITORY_H

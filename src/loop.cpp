@@ -4,6 +4,4 @@
 
 #include "mainwindow.h"
 
-void Ui::MainWindow::onTimeOut(Context &ctx)
-{
-}
+void Ui::MainWindow::onTimeOut(Context& ctx) {}
