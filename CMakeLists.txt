@@ -40,6 +40,8 @@ add_executable(tetris_gui src/main.cpp
         src/Context.h
         src/Repository.cpp
         src/Repository.h
+        src/loop.cpp
+        src/control.cpp
 )
 target_link_libraries(tetris_gui
         Qt::Core

@@ -36,15 +36,23 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    // 渲染相关函数
     static int getFrameId(const Pos &position);
     [[nodiscard]] QFrame* getCell(const Pos &position) const;
     void setCellColor(const Pos &position, const QString &color);
     void setNextBlockWidget(const QString &color);
     void setScoreWidgetNumber(int score) const;
-
     void drawBlockOnBoard(const Block &block, const Pos &anchor);
     void eraseBlockFromBoard(const Block &block, const Pos &anchor);
     void moveBlock(const Block& block, const Pos& anchor, const Pos& new_anchor);
+
+    // 事件处理相关函数
+    void KeyHoldEvent(const QKeyEvent &event);
+    void KeyReleaseEvent(const QKeyEvent &event);
+
+    // 游戏主循环相关函数
+
+    // 菜单等其他界面相关函数
 };
 } // Ui
 

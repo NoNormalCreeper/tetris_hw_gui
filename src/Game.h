@@ -23,6 +23,8 @@ public:
 
     // 游戏当前操作状态
     Action current_action;
+
+    Game(); // TODO
 };
 
 
