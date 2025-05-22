@@ -9,6 +9,7 @@
 #include <QWidget>
 
 #include "Block.h"
+#include "Context.h"
 #include "Pos.h"
 
 namespace Ui {
@@ -39,12 +40,13 @@ private:
     // 渲染相关函数
     static int getFrameId(const Pos &position);
     [[nodiscard]] QFrame* getCell(const Pos &position) const;
-    void setCellColor(const Pos &position, const QString &color);
+    void setCellColor(const Pos &position, const std::optional<QString> &color);
     void setNextBlockWidget(const QString &color);
     void setScoreWidgetNumber(int score) const;
     void drawBlockOnBoard(const Block &block, const Pos &anchor);
     void eraseBlockFromBoard(const Block &block, const Pos &anchor);
     void moveBlock(const Block& block, const Pos& anchor, const Pos& new_anchor);
+    void syncBoardToUi(const Context& ctx);
 
     // 事件处理相关函数
     void KeyHoldEvent(const QKeyEvent &event);

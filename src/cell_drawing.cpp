@@ -10,7 +10,7 @@
 
 static auto to_top = [](const auto y) -> auto { return Game::game_height - y - 1; };
 
-int Ui::MainWindow::getFrameId(const Pos &position) {
+int Ui::MainWindow::getFrameId(const Pos &position) {   // TODO: 建议修改为预处理存储
     const auto to_top_border = to_top(position.y);
     const auto to_left_border = position.x + 1;
     return 10 * to_top_border + to_left_border;
@@ -44,12 +44,12 @@ auto bgColorStylesheet(const QString& file_path) {
     return QString("border-image: url(:/%1)").arg(file_path);
 }
 
-void Ui::MainWindow::setCellColor(const Pos &position, const QString &color) {
+void Ui::MainWindow::setCellColor(const Pos &position, const std::optional<QString> &color) {
     const auto frame = getCell(position);
     if (frame) {
         auto stylesheet = QString("");
-        if (color != nullptr) {  // 若传入 color 为 nullptr，则重置为默认背景
-            stylesheet = bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color));
+        if (color.has_value()) {  // 若传入 color 为空，则重置为默认背景
+            stylesheet = bgColorStylesheet(QString("cells/cells/%1_cell.png").arg(color.value()));
         }
         frame->setStyleSheet(stylesheet);
         return;
@@ -78,18 +78,35 @@ void Ui::MainWindow::setScoreWidgetNumber(const int score) const {
 void Ui::MainWindow::drawBlockOnBoard(const Block &block, const Pos &anchor) {
     for (const auto &pos : block.occupied) {
         const auto cell_pos = anchor + (pos - block.anchor);
-        setCellColor(cell_pos, block.color);
+        setCellColor(cell_pos, std::optional(block.color));
     }
 }
 
 void Ui::MainWindow::eraseBlockFromBoard(const Block &block, const Pos &anchor) {
     for (const auto &pos : block.occupied) {
         const auto cell_pos = anchor + (pos - block.anchor);
-        setCellColor(cell_pos, nullptr);
+        setCellColor(cell_pos, std::nullopt);
     }
 }
 
 void Ui::MainWindow::moveBlock(const Block &block, const Pos &anchor, const Pos &new_anchor) {
     eraseBlockFromBoard(block, anchor);
     drawBlockOnBoard(block, new_anchor);
+}
+
+void Ui::MainWindow::syncBoardToUi(const Context &ctx) {
+    const auto& game = ctx.game;
+    for (int x = 0; x < game.game_width; ++x) {
+        for (int y = 0; y < game.game_height; ++y) {
+            const auto cell_pos = Pos(x, y);
+            const auto& cell_content = game.game_board.at(y).at(x);
+
+            if (!cell_content.has_value()) {
+                setCellColor(cell_pos, std::nullopt);
+                return;
+            }
+            const auto& cell = Block::getBlockByLabel(cell_content.value());
+            setCellColor(cell_pos, std::optional(cell.color));
+        }
+    }
 }
