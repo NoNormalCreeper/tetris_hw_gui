@@ -24,3 +24,36 @@ const Action& Game::setInitAction(const Block* current_block) {
     };
     return this->current_action;
 }
+
+bool Game::tryMoveLeft() {
+    if (m_is_game_over || !current_action.block) return false; 
+
+    Pos new_anchor = current_action.anchor + Pos(-1, 0); 
+    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+        current_action.anchor = new_anchor; 
+        return true; 
+    }
+    return false; 
+}
+
+bool Game::tryMoveRight() {
+    if (m_is_game_over || !current_action.block) return false;
+
+    Pos new_anchor = current_action.anchor + Pos(1, 0); 
+    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+        current_action.anchor = new_anchor; 
+        return true; 
+    }
+    return false; 
+}
+
+bool Game::moveDown() {
+    if (m_is_game_over || !current_action.block) return false;
+
+    Pos new_anchor = current_action.anchor + Pos(0, 1); 
+    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+        current_action.anchor = new_anchor; 
+        return true; 
+    }
+    return false; 
+}
