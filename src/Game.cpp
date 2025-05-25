@@ -51,7 +51,7 @@ bool Game::isValidAction(const Action& action) const {
             return false;
         }
     }
-    return true; 
+    return true;
 }
 
 bool Game::tryMoveLeft() {
@@ -60,8 +60,8 @@ bool Game::tryMoveLeft() {
 
     const Pos new_anchor = current_action.anchor + Pos(-1, 0);
     if (isValidAction({current_action.block, new_anchor})) {
-        current_action.anchor = new_anchor; 
-        return true; 
+        current_action.anchor = new_anchor;
+        return true;
     }
     return false;
 }
@@ -72,8 +72,8 @@ bool Game::tryMoveRight() {
 
     const Pos new_anchor = current_action.anchor + Pos(1, 0);
     if (isValidAction({current_action.block, new_anchor})) {
-        current_action.anchor = new_anchor; 
-        return true; 
+        current_action.anchor = new_anchor;
+        return true;
     }
     return false;
 }
@@ -84,8 +84,8 @@ bool Game::moveDown() {
 
     const Pos new_anchor = current_action.anchor + Pos(0, 1);
     if (isValidAction({current_action.block, new_anchor})) {
-        current_action.anchor = new_anchor; 
-        return true; 
+        current_action.anchor = new_anchor;
+        return true;
     }
     return false;
 }
