@@ -7,6 +7,8 @@
 #include "Block.h"
 #include <array>
 #include <optional>
+#include <algorithm>
+#include <vector>
 #include <random> 
 
 class Game {
