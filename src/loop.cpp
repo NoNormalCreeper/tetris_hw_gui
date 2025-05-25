@@ -1,7 +1,43 @@
 //
-// Created by Rikka on 2025/5/22.
+// Created by Rikka on 2025/5/15.
 //
 
 #include "mainwindow.h"
 
-void Ui::MainWindow::onTimeOut(Context& ctx) {}
+// 以下Game.h里的函数都是瞎写的（
+// bool Game::isGameOver();
+// bool Game::moveDown(); // 尝试将当前方块下落一格，落不动时返回false
+// void Game::lockCurrentBlock(); // 将当前方块固定到棋盘上
+// void Game::clearFullRows(); // 检查并消除满行，加分
+// void Game::spawnNewBlock(); // 产生新的当前方块和下一个方块
+
+void Ui::MainWindow::onTimeOut(Context& ctx) {
+    if (ctx.game.isGameOver()) {
+        ctx.status = GAME_OVER;
+        syncBoardAndActionToUi();
+        return;
+    }
+
+    // 主循环：自动下落处理
+    bool moved = ctx.game.moveDown(); // moveDown() 成功返回true，否则为false
+
+    if (!moved) {
+        // 下落不了，说明到底或被阻挡，需锁定方块并处理消行
+        ctx.game.lockCurrentBlock();
+        ctx.game.clearFullRows(); // 有消行要加分的加分
+
+        // 生新块
+        ctx.game.spawnNewBlock();
+
+        // 游戏结束判定（部分情况下新方块出现也有可能直接失败）
+        if (ctx.game.isGameOver()) {
+            ctx.status = GAME_OVER;
+            syncBoardAndActionToUi();
+            return;
+        }
+    }
+
+    // 渲染同步刷新
+    syncBoardAndActionToUi();
+}
+
