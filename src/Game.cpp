@@ -26,72 +26,81 @@ const Action& Game::setInitAction(const Block* current_block) {
     return this->current_action;
 }
 
-bool Game::isValidPosition(const Block* block_to_check, const Pos& board_anchor) const {
-    if (!block_to_check || block_to_check->occupied.empty()) { 
-         return false; // 无效方块指针
+bool Game::isValidAction(const Action& action) const {
+    const auto block = action.block;
+    const auto board_anchor = action.anchor;
+
+    if (!block || block->occupied.empty()) {
+        return false; // 无效方块指针
     }
 
-    for (const auto& occupied_rel_pos : block_to_check->occupied) {
-        
+    for (const auto& occupied_rel_pos : block->occupied) {
         // 绝对坐标 = 板上锚点 + (方块内部相对坐标 - 方块内部锚点)
-        Pos game_pos = board_anchor + (occupied_rel_pos - block_to_check->anchor);
+        const Pos game_pos = board_anchor + (occupied_rel_pos - block->anchor);
 
         // 检查是否越左右边界
         if (game_pos.x < 0 || game_pos.x >= game_width) {
-            return false; 
+            return false;
         }
         // 检查是否越上下边界
         if (game_pos.y < 0 || game_pos.y >= game_height) {
-            return false; 
+            return false;
         }
         // 检查位置是否已被其他方块占据
-        if (game_board[game_pos.y][game_pos.x].has_value()) {
-            return false; 
+        if (game_board.at(game_pos.x).at(game_pos.x).has_value()) {
+            return false;
         }
     }
     return true; 
 }
 
 bool Game::tryMoveLeft() {
-    if (m_is_game_over || !current_action.block) return false; 
+    if (m_is_game_over || !current_action.block)
+        return false;
 
-    Pos new_anchor = current_action.anchor + Pos(-1, 0); 
-    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+    const Pos new_anchor = current_action.anchor + Pos(-1, 0);
+    if (isValidAction({current_action.block, new_anchor})) {
         current_action.anchor = new_anchor; 
         return true; 
     }
-    return false; 
+    return false;
 }
 
 bool Game::tryMoveRight() {
-    if (m_is_game_over || !current_action.block) return false;
+    if (m_is_game_over || !current_action.block)
+        return false;
 
-    Pos new_anchor = current_action.anchor + Pos(1, 0); 
-    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+    const Pos new_anchor = current_action.anchor + Pos(1, 0);
+    if (isValidAction({current_action.block, new_anchor})) {
         current_action.anchor = new_anchor; 
         return true; 
     }
-    return false; 
+    return false;
 }
 
 bool Game::moveDown() {
-    if (m_is_game_over || !current_action.block) return false;
+    if (m_is_game_over || !current_action.block)
+        return false;
 
-    Pos new_anchor = current_action.anchor + Pos(0, 1); 
-    if (isValidPosition(&m_current_block_instance, new_anchor)) {
+    const Pos new_anchor = current_action.anchor + Pos(0, 1);
+    if (isValidAction({current_action.block, new_anchor})) {
         current_action.anchor = new_anchor; 
         return true; 
     }
-    return false; 
+    return false;
 }
 
 bool Game::tryRotate() {
-    if (m_is_game_over || !current_action.block) return false;
+    if (m_is_game_over || !current_action.block)
+        return false;
 
-    Block rotated_block_candidate = m_current_block_instance.rotate(); // 获取旋转后方块的副本
-    
-    if (isValidPosition(&rotated_block_candidate, current_action.anchor)) {
-        m_current_block_instance = rotated_block_candidate; 
+    Block rotated_block =
+        current_action.block->rotate(); // 获取旋转后方块的副本
+
+    if (isValidAction({&rotated_block, current_action.anchor})) {
+        std::copy(current_action.block->occupied.begin(),
+                  current_action.block->occupied.end(),
+                  rotated_block.occupied.begin());
         return true;
     }
     return false; 

@@ -44,12 +44,12 @@ private:
     const Action&
     setInitAction(const Block* current_block); // 根据当前方块获取初始的方块位置
 
-    //游戏结束标志
+    // 游戏结束标志
     bool m_is_game_over;  
 
     // --- 需要新增的辅助函数 ---
     const Block* getRandomBlock(); // 随机生成一个方块
-    bool isValidPosition(const Block* block_to_check, const Pos& board_anchor) const; // 检查方块在指定位置是否有效 
+    bool isValidAction(const Action& action) const; // 检查方块在指定位置是否有效
 };
 
 
