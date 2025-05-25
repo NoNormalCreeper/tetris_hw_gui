@@ -57,3 +57,15 @@ bool Game::moveDown() {
     }
     return false; 
 }
+
+bool Game::tryRotate() {
+    if (m_is_game_over || !current_action.block) return false;
+
+    Block rotated_block_candidate = m_current_block_instance.rotate(); // 获取旋转后方块的副本
+    
+    if (isValidPosition(&rotated_block_candidate, current_action.anchor)) {
+        m_current_block_instance = rotated_block_candidate; 
+        return true;
+    }
+    return false; 
+}
