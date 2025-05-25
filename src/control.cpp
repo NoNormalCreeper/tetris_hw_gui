@@ -28,7 +28,6 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         if (event->key() == Qt::Key_Return ||
             event->key() == Qt::Key_Enter) // 回车键开始游戏
         {
-            context.game = Game();      
             context.status = PLAYING;
             syncBoardAndActionToUi();
             timer.start(GAME_TIMER_INTERVAL_MS);
