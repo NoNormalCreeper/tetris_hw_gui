@@ -18,6 +18,15 @@ Game::Game()
     // ......
 }
 
+//其余部分随机方块应用暂时还未修改
+const Block* Game::getRandomBlock() {
+    // 确保 k_Block::list 非空
+    if (k_Block::list.empty()) {
+        throw std::runtime_error("Block list is empty."); 
+    }
+    int index = std::rand() % k_Block::list.size(); 
+    return &k_Block::list[index];
+}
 
 const Action& Game::setInitAction(const Block* current_block) {
     this->current_action = Action{
