@@ -35,9 +35,8 @@ const auto S = Block('S', "green",     {Pos(1,0), Pos(2,0), Pos(0,1), Pos(1,1)},
 const auto T = Block('T', "purple",    {Pos(1,0), Pos(0,1), Pos(1,1), Pos(2,1)}, Pos(1,1));
 const auto Z = Block('Z', "red",       {Pos(0,0), Pos(1,0), Pos(1,1), Pos(2,1)}, Pos(1,1));
 
-// 更新列表 (Update the list)
+const auto list = std::vector<Block>{I, L, J, O, S, T, Z}; 
 
-const auto list = std::vector{I};
 } // namespace k_Block
 
 using Action = struct {
