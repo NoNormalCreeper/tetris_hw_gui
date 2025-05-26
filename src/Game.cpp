@@ -134,3 +134,35 @@ void Game::placeCurrentBlock() {
         }
      }
 }
+
+void Game::clearFullRows() {
+    int rows_cleared = 0;
+    for (int y = game_height - 1; y >= 0; --y) {
+        bool row_is_full = true;
+        for (int x = 0; x < game_width; ++x) {
+            if (!game_board[y][x].has_value()) {
+                row_is_full = false;
+                break;
+            }
+        }
+
+        if (row_is_full) {
+            rows_cleared++;
+            for (int r = y; r > 0; --r) {
+                game_board[r] = game_board[r - 1];
+            }
+            
+            game_board[0].fill(std::nullopt); 
+            y++; 
+        }
+    }
+
+    if (rows_cleared > 0) {
+        // 根据消除的行数加分
+        // 1行: 100, 2行: 300, 3行: 500, 4行: 800 (Tetris)
+        if (rows_cleared == 1) score += 100;
+        else if (rows_cleared == 2) score += 300;
+        else if (rows_cleared == 3) score += 500;
+        else if (rows_cleared >= 4) score += 800; 
+    }
+}
