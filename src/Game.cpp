@@ -13,7 +13,8 @@ Game::Game()
         row.fill(std::nullopt);
     }
 
-    const auto first_block = k_Block::I; // TODO: 改为正确的随机生成
+    next_block = getRandomBlock(); 
+    spawnNewBlock();
     setInitAction(&first_block);
     // ......
 }
@@ -172,3 +173,18 @@ bool Game::isGameOver() const {
     
     return m_is_game_over;
 }
+
+void Game::spawnNewBlock() {
+    current_action.block = next_block; // 当前方块为之前的下一个方块
+    setInitAction(current_action.block); // 设置初始位置 
+
+    next_block = getRandomBlock(); 
+
+    // 检查新生成的方块是否有效，无效则游戏结束 
+    if (!isValidAction(current_action)) {
+        m_is_game_over = true;
+        // 将 score 设为负数表示游戏结束时的最终得分
+        if (score >= 0) score = -score;
+    }
+}
+
