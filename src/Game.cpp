@@ -166,3 +166,9 @@ void Game::clearFullRows() {
         else if (rows_cleared >= 4) score += 800; 
     }
 }
+
+bool Game::isGameOver() const {
+     
+    
+    return m_is_game_over;
+}
