@@ -105,3 +105,23 @@ bool Game::tryRotate() {
     }
     return false; 
 }
+
+void Game::placeCurrentBlock() {
+    if (!current_action.block) return; 
+
+    for (const auto& cell_relative_pos : current_action.block->occupied) {
+        Pos board_pos = current_action.anchor + (cell_relative_pos - current_action.block->anchor);
+        if (board_pos.y >= 0 && board_pos.y < game_height &&
+            board_pos.x >= 0 && board_pos.x < game_width) {
+            game_board[board_pos.y][board_pos.x] = current_action.block->label;
+        }
+    }
+    // 在此检查是否因放置方块而导致堆叠过高 -> 游戏结束
+   
+    for (int x = 0; x < game_width; ++x) {
+        if (game_board[death_height -1][x].has_value()) { 
+            m_is_game_over = true;
+            break;
+        }
+     }
+}
