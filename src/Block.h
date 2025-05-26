@@ -27,9 +27,15 @@ public:
 
 namespace k_Block {
 // 方块类型常量
-const auto I =
-    Block('I', "lightblue", {Pos(0, 0), Pos(1, 0), Pos(2, 0), Pos(3, 0)});
-// TODO: 补全其他方块类型
+const auto I = Block('I', "lightblue", {Pos(0,0), Pos(1,0), Pos(2,0), Pos(3,0)}, Pos(1,0)); 
+const auto L = Block('L', "orange",    {Pos(0,1), Pos(1,1), Pos(2,1), Pos(2,0)}, Pos(1,1));
+const auto J = Block('J', "blue",      {Pos(0,0), Pos(0,1), Pos(1,1), Pos(2,1)}, Pos(1,1));
+const auto O = Block('O', "yellow",    {Pos(0,0), Pos(1,0), Pos(0,1), Pos(1,1)}, Pos(0,0)); 
+const auto S = Block('S', "green",     {Pos(1,0), Pos(2,0), Pos(0,1), Pos(1,1)}, Pos(1,1));
+const auto T = Block('T', "purple",    {Pos(1,0), Pos(0,1), Pos(1,1), Pos(2,1)}, Pos(1,1));
+const auto Z = Block('Z', "red",       {Pos(0,0), Pos(1,0), Pos(1,1), Pos(2,1)}, Pos(1,1));
+
+// 更新列表 (Update the list)
 
 const auto list = std::vector{I};
 } // namespace k_Block
