@@ -82,7 +82,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             while (context.game.moveDown()) {
                 // 保持下落
             }
-            context.game.lockCurrentBlock();
+            context.game.placeCurrentBlock(); 
             context.game.clearFullRows();
             context.game.spawnNewBlock();
 
