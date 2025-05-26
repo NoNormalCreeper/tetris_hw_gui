@@ -29,13 +29,6 @@ void Ui::MainWindow::onTimeOut(Context& ctx)
 
         // 生新块
         ctx.game.spawnNewBlock();
-
-        // 游戏结束判定（部分情况下新方块出现也有可能直接失败）
-        if (ctx.game.isGameOver()) {
-            ctx.status = GAME_OVER;
-            syncBoardAndActionToUi();
-            return;
-        }
     }
 
     // 渲染同步刷新
