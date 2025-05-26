@@ -34,7 +34,7 @@ public:
     bool tryMoveRight();     // 尝试右移当前方块
     bool tryRotate();        // 尝试旋转当前方块
     bool moveDown();         // 尝试将当前方块下落一格
-    void lockCurrentBlock(); // 将当前方块固定到棋盘上
+    void placeCurrentBlock();   // 将当前方块固定到棋盘上（原lockCurrentBlock）
     void clearFullRows();    // 检查并消除满行，增加分数
     void spawnNewBlock();    // 生成新的当前方块和下一个方块
     bool isGameOver() const; // 检查游戏是否结束
