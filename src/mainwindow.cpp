@@ -7,7 +7,7 @@
 
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
-
+#include "loop.cpp"
 #include "Block.h"
 
 namespace Ui {
@@ -18,9 +18,8 @@ MainWindow::MainWindow(QWidget* parent)
     this->context = Context();
 
     // connect timer timeout signal
-    // TODO: timer 的初始化
     connect(&timer, &QTimer::timeout, this, [&]() {
-        // TODO: 实现此处的游戏主循环
+        onTimeOut(this->context);
     });
 
     // tests
