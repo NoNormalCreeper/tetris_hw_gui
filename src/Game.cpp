@@ -6,8 +6,8 @@
 
 Game::Game()
     : game_board(std::array<std::array<std::optional<char>, game_width>,
-                            game_height>()), m_is_game_over(false),
-      next_block(), current_action() {
+                            game_height>()), m_is_game_over(false),next_block(nullptr),
+      current_action() {
     // 初始化游戏区域
     for (auto& row : game_board) {
         row.fill(std::nullopt);
