@@ -13,19 +13,24 @@ Game::Game()
         row.fill(std::nullopt);
     }
 
+    static bool seeded = false;
+    if (!seeded) {
+        std::srand(static_cast<unsigned int>(std::time(nullptr)));
+        seeded = true;
+    }
+
     next_block = getRandomBlock(); 
     spawnNewBlock();
     setInitAction(&first_block);
     // ......
 }
 
-//其余部分随机方块应用暂时还未修改
 const Block* Game::getRandomBlock() {
-    // 确保 k_Block::list 非空
     if (k_Block::list.empty()) {
-        throw std::runtime_error("Block list is empty."); 
+        throw std::runtime_error("Block list is empty.");
     }
-    int index = std::rand() % k_Block::list.size(); 
+    
+    int index = std::rand() % k_Block::list.size();
     return &k_Block::list[index];
 }
 
