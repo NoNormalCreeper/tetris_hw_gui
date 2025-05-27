@@ -27,7 +27,7 @@ public:
     // 游戏当前操作状态
     Action current_action;
 
-    Game(); // TODO
+    Game(); 
 
     // --- 需要新增的函数 --- 
     bool tryMoveLeft();      // 尝试左移当前方块
