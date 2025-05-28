@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 
     this->context = Context();
+    setNextBlockWidget(context.game.next_block->color);
 
     // connect timer timeout signal
     connect(&timer, &QTimer::timeout, this, [&]() {

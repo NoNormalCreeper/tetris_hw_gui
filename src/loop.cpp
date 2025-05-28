@@ -26,9 +26,11 @@ void Ui::MainWindow::onTimeOut(Context& ctx)
         // 下落不了，说明到底或被阻挡，需锁定方块并处理消行
         ctx.game.placeCurrentBlock();
         ctx.game.clearFullRows(); // 有消行要加分的加分
+        setScoreWidgetNumber(abs(ctx.game.score)); // 更新分数显示
 
         // 生新块
         ctx.game.spawnNewBlock();
+        setNextBlockWidget(ctx.game.next_block->color);
     }
 
     // 渲染同步刷新
