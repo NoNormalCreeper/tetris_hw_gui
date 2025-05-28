@@ -1,4 +1,3 @@
-//
 // Created by Rikka on 2025/5/16.
 //
 
@@ -7,7 +6,8 @@
 Game::Game()
     : game_board(std::array<std::array<std::optional<char>, game_width>,
                             game_height>()), m_is_game_over(false),next_block(nullptr),
-      current_action() {
+    current_action(), falling_block_buf(k_Block::O)  // 这里随便初始化一个Block，不影响后续功能
+    {
     // 初始化游戏区域
     for (auto& row : game_board) {
         row.fill(std::nullopt);
@@ -19,27 +19,39 @@ Game::Game()
         seeded = true;
     }
 
-    next_block = getRandomBlock(); 
-    spawnNewBlock();
-    setInitAction(next_block);
+    //  防止 Block list 为空导致非法访问
+    if (k_Block::list.empty()) {
+        throw std::runtime_error("Block list is empty.");
+    }
+
+    next_block = getRandomBlock();
+    // 防止 next_block 为 nullptr
+    if (!next_block) {
+        throw std::runtime_error("Get random block failed.");
+    }
+    spawnNewBlock();   // spawnNewBlock 会完成 falling_block_buf和current_action.block初始化
+
+    // setInitAction(next_block); // 建议删除：这会把 current_action.block 指向 next_block（可能带来野指针）
     // ......
 }
 
 const Block* Game::getRandomBlock() {
     if (k_Block::list.empty()) {
-        throw std::runtime_error("Block list is empty.");
+        // throw std::runtime_error("Block list is empty."); // 放构造函数判定即可
+        return nullptr; // 防止空表，返回 nullptr
     }
-    
+
     int index = std::rand() % k_Block::list.size();
     return &k_Block::list[index];
 }
 
-const Action& Game::setInitAction(const Block* current_block) {
-    this->current_action = Action{
-        current_block, Pos(game_width / 2, game_height - 3) // TODO: 这里的 anchor 需要根据实际情况设置
-    };
-    return this->current_action;
-}
+// 建议不再需调用 setInitAction，后续用 buildInitAction 替代更安全。保留原函数实现，但不要再外部主动调。
+// const Action& Game::setInitAction(const Block* current_block) {
+//     this->current_action = Action{
+//         current_block, Pos(game_width / 2, game_height - 3)
+//     };
+//     return this->current_action;
+// }
 
 bool Game::isValidAction(const Action& action) const {
     const auto block = action.block;
@@ -113,16 +125,16 @@ bool Game::tryRotate() {
         current_action.block->rotate(); // 获取旋转后方块的副本
 
     if (isValidAction({&rotated_block, current_action.anchor})) {
-        std::copy(current_action.block->occupied.begin(),
-                  current_action.block->occupied.end(),
-                  rotated_block.occupied.begin());
+        // 安全旋转，替换缓冲区实体为新朝向，并重新绑定指针
+        falling_block_buf = rotated_block;
+        current_action.block = &falling_block_buf;
         return true;
     }
-    return false; 
+    return false;
 }
 
 void Game::placeCurrentBlock() {
-    if (!current_action.block) return; 
+    if (!current_action.block) return;
 
     for (const auto& cell_relative_pos : current_action.block->occupied) {
         Pos board_pos = current_action.anchor + (cell_relative_pos - current_action.block->anchor);
@@ -131,10 +143,10 @@ void Game::placeCurrentBlock() {
             game_board[board_pos.y][board_pos.x] = current_action.block->label;
         }
     }
-    // 在此检查是否因放置方块而导致堆叠过高 -> 游戏结束
-   
+    // 检查是否因放置方块而导致堆叠过高 -> 游戏结束
+
     for (int x = 0; x < game_width; ++x) {
-        if (game_board[death_height -1][x].has_value()) { 
+        if (game_board[death_height -1][x].has_value()) {
             m_is_game_over = true;
             break;
         }
@@ -157,9 +169,9 @@ void Game::clearFullRows() {
             for (int r = y; r > 0; --r) {
                 game_board[r] = game_board[r - 1];
             }
-            
-            game_board[0].fill(std::nullopt); 
-            y++; 
+
+            game_board[0].fill(std::nullopt);
+            y++;
         }
     }
 
@@ -169,27 +181,36 @@ void Game::clearFullRows() {
         if (rows_cleared == 1) score += 100;
         else if (rows_cleared == 2) score += 300;
         else if (rows_cleared == 3) score += 500;
-        else if (rows_cleared >= 4) score += 800; 
+        else if (rows_cleared >= 4) score += 800;
     }
 }
 
 bool Game::isGameOver() const {
-     
-    
     return m_is_game_over;
 }
 
 void Game::spawnNewBlock() {
-    current_action.block = next_block; // 当前方块为之前的下一个方块
-    setInitAction(current_action.block); // 设置初始位置 
+    // 防止 next_block 为 nullptr。若空则游戏结束
+    if (!next_block) {
+        m_is_game_over = true;
+        if (score >= 0) score = -score;
+        return;
+    }
 
-    next_block = getRandomBlock(); 
+    // 用下一方块的原型，生成“当前缓冲副本”
+    falling_block_buf = *next_block;       // 复制方块到缓冲区
+    current_action.block = &falling_block_buf; // 指向它
+    // setInitAction(current_action.block);   // 删除/注释掉，否则current_action.block指向O block等
 
-    // 检查新生成的方块是否有效，无效则游戏结束 
+    // 每次生成新current_action重设其 anchor
+    current_action.anchor = Pos(game_width / 2, game_height - 3);
+
+    next_block = getRandomBlock();
+
+    // 检查新生成的方块是否有效，无效则游戏结束
     if (!isValidAction(current_action)) {
         m_is_game_over = true;
         // 将 score 设为负数表示游戏结束时的最终得分
         if (score >= 0) score = -score;
     }
 }
-

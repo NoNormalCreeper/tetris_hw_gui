@@ -23,35 +23,37 @@ public:
     std::array<std::array<std::optional<char>, game_width>, game_height>
         game_board; // 游戏区域
     int score = 0;  // 当前分数，负数代表游戏结束的最终得分
-    const Block* next_block;
+
+    const Block* next_block = nullptr; // 确保有明确的初始值，防止悬空指针
 
     // 游戏当前操作状态
     Action current_action;
 
-    Game(); 
+    Game();
 
-    // --- 需要新增的函数 --- 
     bool tryMoveLeft();      // 尝试左移当前方块
     bool tryMoveRight();     // 尝试右移当前方块
     bool tryRotate();        // 尝试旋转当前方块
     bool moveDown();         // 尝试将当前方块下落一格
-    void placeCurrentBlock();   // 将当前方块固定到棋盘上（原lockCurrentBlock）
+    void placeCurrentBlock();   // 将当前方块固定到棋盘上
     void clearFullRows();    // 检查并消除满行，增加分数
     void spawnNewBlock();    // 生成新的当前方块和下一个方块
     bool isGameOver() const; // 检查游戏是否结束
 
-
 private:
-    const Action&
-    setInitAction(const Block* current_block); // 根据当前方块获取初始的方块位置
+    //为了避免指针悬空或失效，不再使用setInitAction
+    //current_action.block 需要指向正在活动的 falling_block_buf
+    //而setInitAction会无条件让 current_action.block 指向传进来的 Block 指针
+    // const Action& setInitAction(const Block* current_block);
 
     // 游戏结束标志
-    bool m_is_game_over;  
+    bool m_is_game_over = false;  // 添加初始化，防止未初始化即读取
 
-    // --- 需要新增的辅助函数 ---
-    const Block* getRandomBlock(); // 随机生成一个方块
+    // --- 辅助函数 ---
+    static const Block* getRandomBlock(); // 随机生成一个方块
     bool isValidAction(const Action& action) const; // 检查方块在指定位置是否有效
-};
 
+    Block falling_block_buf = k_Block::O; // 当前下落方块的实体副本，防止悬空指针
+};
 
 #endif //GAME_H
