@@ -62,7 +62,7 @@ bool Game::isValidAction(const Action& action) const {
             return false;
         }
         // 检查位置是否已被其他方块占据
-        if (game_board.at(game_pos.x).at(game_pos.x).has_value()) {
+        if (game_board.at(game_pos.y).at(game_pos.x).has_value()) {
             return false;
         }
     }
