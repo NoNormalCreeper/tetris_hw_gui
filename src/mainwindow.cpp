@@ -7,7 +7,7 @@
 
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
-#include "loop.cpp"
+// #include "loop.cpp"
 #include "Block.h"
 
 namespace Ui {
@@ -23,10 +23,10 @@ MainWindow::MainWindow(QWidget* parent)
     });
 
     // tests
-    TestCellDrawing();
-    TestNextBlockDrawing();
-    TestDigitNumber();
-    TestBlockDrawing();
+    // TestCellDrawing();
+    // TestNextBlockDrawing();
+    // TestDigitNumber();
+    // TestBlockDrawing();
 }
 
 MainWindow::~MainWindow() { delete ui; }

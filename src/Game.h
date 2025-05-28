@@ -9,6 +9,7 @@
 #include <optional>
 #include <algorithm>
 #include <vector>
+#include <ctime>
 #include <random> 
 
 class Game {

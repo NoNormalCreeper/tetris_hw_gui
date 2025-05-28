@@ -21,7 +21,7 @@ Game::Game()
 
     next_block = getRandomBlock(); 
     spawnNewBlock();
-    setInitAction(&first_block);
+    setInitAction(next_block);
     // ......
 }
 
@@ -36,7 +36,7 @@ const Block* Game::getRandomBlock() {
 
 const Action& Game::setInitAction(const Block* current_block) {
     this->current_action = Action{
-        current_block, Pos(0, 0) // TODO: 这里的 anchor 需要根据实际情况设置
+        current_block, Pos(game_width / 2, game_height - 3) // TODO: 这里的 anchor 需要根据实际情况设置
     };
     return this->current_action;
 }
@@ -97,7 +97,7 @@ bool Game::moveDown() {
     if (m_is_game_over || !current_action.block)
         return false;
 
-    const Pos new_anchor = current_action.anchor + Pos(0, 1);
+    const Pos new_anchor = current_action.anchor - Pos(0, 1);
     if (isValidAction({current_action.block, new_anchor})) {
         current_action.anchor = new_anchor;
         return true;

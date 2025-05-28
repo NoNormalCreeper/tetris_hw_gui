@@ -121,7 +121,7 @@
         <number>0</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_1">
+        <layout class="QHBoxLayout" name="horizontalLayout_20">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -4264,7 +4264,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_21">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -4494,7 +4494,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QHBoxLayout" name="horizontalLayout_1">
          <property name="spacing">
           <number>0</number>
          </property>
