@@ -155,6 +155,9 @@ void Game::placeCurrentBlock() {
 
 void Game::clearFullRows() {
     int rows_cleared = 0;
+    std::array<std::array<std::optional<char>, game_width>, game_height> new_board;
+    int new_row = game_height - 1; // 从底部开始填充
+    
     for (int y = game_height - 1; y >= 0; --y) {
         bool row_is_full = true;
         for (int x = 0; x < game_width; ++x) {
@@ -163,21 +166,26 @@ void Game::clearFullRows() {
                 break;
             }
         }
-
-        if (row_is_full) {
+        
+        if (!row_is_full) {
+            // 保留非满行
+            new_board[new_row] = game_board[y];
+            new_row--;
+        } else {
             rows_cleared++;
-            for (int r = y; r > 0; --r) {
-                game_board[r] = game_board[r - 1];
-            }
-
-            game_board[0].fill(std::nullopt);
-            y++;
         }
     }
+    
+    // 填充顶部空行
+    for (int y = new_row; y >= 0; --y) {
+        new_board[y].fill(std::nullopt);
+    }
+    
+    // 更新游戏板
+    game_board = new_board;
 
+    // 更新分数
     if (rows_cleared > 0) {
-        // 根据消除的行数加分
-        // 1行: 100, 2行: 300, 3行: 500, 4行: 800 (Tetris)
         if (rows_cleared == 1) score += 100;
         else if (rows_cleared == 2) score += 300;
         else if (rows_cleared == 3) score += 500;
