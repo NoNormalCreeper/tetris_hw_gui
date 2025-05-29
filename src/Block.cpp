@@ -19,8 +19,12 @@ Block Block::rotate() const {
     new_occupied.reserve(this->occupied.size());
 
     for (const auto& pos : this->occupied) {
-        new_occupied.emplace_back(this->anchor.x + (pos.y - this->anchor.y),
-                                  this->anchor.y + (this->anchor.x - pos.x));
+        // 修正旋转公式：顺时针旋转90度 (x,y) -> (y, -x)
+        int relative_x = pos.x - anchor.x;
+        int relative_y = pos.y - anchor.y;
+        int new_x = anchor.x - relative_y;
+        int new_y = anchor.y + relative_x;
+        new_occupied.emplace_back(new_x, new_y);
     }
 
     return Block(this->label, this->color, new_occupied, this->anchor);
