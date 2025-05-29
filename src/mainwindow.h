@@ -56,6 +56,9 @@ private:
     void moveBlock(const Block& block, const Pos& anchor,
                    const Pos& new_anchor);
     void syncBoardAndActionToUi();
+    void toogleStartMenu(int status);
+    void toogleEndMenu(int status);
+    void syncMenuStatusToUi();
 
     // 事件处理相关函数
     void keyPressEvent(QKeyEvent* event) override;

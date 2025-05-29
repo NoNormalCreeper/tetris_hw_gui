@@ -134,3 +134,20 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
         setCellColor(cell_pos, std::optional(block->color));
     }
 }
+
+void Ui::MainWindow::toogleStartMenu(int status) {
+    auto start_menu_widget = ui->startMenu;
+    if (start_menu_widget) {
+        start_menu_widget->setVisible(status);
+    } else {
+        throw std::runtime_error("Start menu widget not found");
+    }
+}
+
+void Ui::MainWindow::toogleEndMenu(int status) {
+
+}
+
+void Ui::MainWindow::syncMenuStatusToUi(){
+    toogleStartMenu(this->context.status == MAIN_MENU);
+}
