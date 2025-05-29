@@ -22,5 +22,7 @@
     </qresource>
     <qresource prefix="/icons">
         <file>tetris.ico</file>
+        <file>tetrisTitle.png</file>
+        <file>startMenuBg.png</file>
     </qresource>
 </RCC>
