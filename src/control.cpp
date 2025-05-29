@@ -74,24 +74,26 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             }
             break;
 
-        case Qt::Key_Down: // 向下 (硬着陆)
+        case Qt::Key_Down: // 硬着陆
         case Qt::Key_S:
         case Qt::Key_Space:
-            // 实现方块硬着陆:
-
-            while (context.game.moveDown()) {
-                // 保持下落
-            }
-            context.game.placeCurrentBlock(); 
-            context.game.clearFullRows();
-            context.game.spawnNewBlock();
-
-            if (context.game.isGameOver()) {
-                context.status = GAME_OVER;
-                timer.stop();
-            }
-            syncBoardAndActionToUi();
-            break;
+    while (context.game.moveDown()) {
+        // 空循环，持续下落
+    }
+    context.game.placeCurrentBlock();
+    context.game.clearFullRows();
+    // 更新分数显示
+    setScoreWidgetNumber(abs(context.game.score));
+    context.game.spawnNewBlock();
+    // 更新下一个方块显示
+    setNextBlockWidget(context.game.next_block->color);
+    
+    if (context.game.isGameOver()) {
+        context.status = GAME_OVER;
+        timer.stop();
+    }
+    syncBoardAndActionToUi();
+    break;
 
         default: // 其他
             QWidget::keyPressEvent(event);
