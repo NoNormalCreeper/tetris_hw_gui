@@ -198,27 +198,20 @@ bool Game::isGameOver() const {
 }
 
 void Game::spawnNewBlock() {
-    // 防止 next_block 为 nullptr。若空则游戏结束
     if (!next_block) {
         m_is_game_over = true;
         if (score >= 0) score = -score;
         return;
     }
 
-    // 用下一方块的原型，生成“当前缓冲副本”
-    falling_block_buf = *next_block;       // 复制方块到缓冲区
-    current_action.block = &falling_block_buf; // 指向它
-    // setInitAction(current_action.block);   // 删除/注释掉，否则current_action.block指向O block等
-
-    // 每次生成新current_action重设其 anchor
-    current_action.anchor = Pos(game_width / 2, game_height - 3);
+    falling_block_buf = *next_block;
+    current_action.block = &falling_block_buf;
+    current_action.anchor = Pos(game_width / 2, game_height - 2); // 调整初始位置
 
     next_block = getRandomBlock();
 
-    // 检查新生成的方块是否有效，无效则游戏结束
     if (!isValidAction(current_action)) {
         m_is_game_over = true;
-        // 将 score 设为负数表示游戏结束时的最终得分
         if (score >= 0) score = -score;
     }
 }
