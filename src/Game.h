@@ -1,7 +1,3 @@
-//
-// Created by Rikka on 2025/5/16.
-//
-
 #ifndef GAME_H
 #define GAME_H
 #include "Block.h"
@@ -10,7 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <ctime>
-#include <random> 
+#include <random>
 
 class Game {
 public:
@@ -40,11 +36,14 @@ public:
     void spawnNewBlock();    // 生成新的当前方块和下一个方块
     bool isGameOver() const; // 检查游戏是否结束
 
+    // 新增：统一设置当前活动方块，避免悬空指针和临时变量指针问题
+    void setCurrentBlock(const Block& block, const Pos& anchor);
+
 private:
     //为了避免指针悬空或失效，不再使用setInitAction
     //current_action.block 需要指向正在活动的 falling_block_buf
     //而setInitAction会无条件让 current_action.block 指向传进来的 Block 指针
-    // const Action& setInitAction(const Block* current_block);
+    // const Action& setInitAction(const Block* current_block);   // 已注销
 
     // 游戏结束标志
     bool m_is_game_over = false;  // 添加初始化，防止未初始化即读取

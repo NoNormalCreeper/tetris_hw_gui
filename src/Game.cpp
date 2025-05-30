@@ -1,6 +1,3 @@
-// Created by Rikka on 2025/5/16.
-//
-
 #include "Game.h"
 
 Game::Game()
@@ -31,13 +28,20 @@ Game::Game()
     }
     spawnNewBlock();   // spawnNewBlock 会完成 falling_block_buf和current_action.block初始化
 
-    // setInitAction(next_block); // 建议删除：这会把 current_action.block 指向 next_block（可能带来野指针）
-    // ......
+    // setInitAction(next_block); // 旧代码注释掉，不再使用，防止悬空指针
+}
+
+// 新增统一接口管理 current_action.block
+void Game::setCurrentBlock(const Block& block, const Pos& anchor)
+{
+    // 将传入的Block拷贝到 falling_block_buf，保证生命周期和指针安全
+    falling_block_buf = block;
+    current_action.block = &falling_block_buf;
+    current_action.anchor = anchor;
 }
 
 const Block* Game::getRandomBlock() {
     if (k_Block::list.empty()) {
-        // throw std::runtime_error("Block list is empty."); // 放构造函数判定即可
         return nullptr; // 防止空表，返回 nullptr
     }
 
@@ -45,7 +49,6 @@ const Block* Game::getRandomBlock() {
     return &k_Block::list[index];
 }
 
-// 建议不再需调用 setInitAction，后续用 buildInitAction 替代更安全。保留原函数实现，但不要再外部主动调。
 // const Action& Game::setInitAction(const Block* current_block) {
 //     this->current_action = Action{
 //         current_block, Pos(game_width / 2, game_height - 3)
@@ -62,18 +65,14 @@ bool Game::isValidAction(const Action& action) const {
     }
 
     for (const auto& occupied_rel_pos : block->occupied) {
-        // 绝对坐标 = 板上锚点 + (方块内部相对坐标 - 方块内部锚点)
         const Pos game_pos = board_anchor + (occupied_rel_pos - block->anchor);
 
-        // 检查是否越左右边界
         if (game_pos.x < 0 || game_pos.x >= game_width) {
             return false;
         }
-        // 检查是否越上下边界
         if (game_pos.y < 0 || game_pos.y >= game_height) {
             return false;
         }
-        // 检查位置是否已被其他方块占据
         if (game_board.at(game_pos.y).at(game_pos.x).has_value()) {
             return false;
         }
@@ -125,9 +124,8 @@ bool Game::tryRotate() {
         current_action.block->rotate(); // 获取旋转后方块的副本
 
     if (isValidAction({&rotated_block, current_action.anchor})) {
-        // 安全旋转，替换缓冲区实体为新朝向，并重新绑定指针
-        falling_block_buf = rotated_block;
-        current_action.block = &falling_block_buf;
+        // 使用新统一接口设置旋转后方块，保证安全
+        setCurrentBlock(rotated_block, current_action.anchor);
         return true;
     }
     return false;
@@ -157,7 +155,7 @@ void Game::clearFullRows() {
     int rows_cleared = 0;
     std::array<std::array<std::optional<char>, game_width>, game_height> new_board;
     int new_row = game_height - 1; // 从底部开始填充
-    
+
     for (int y = game_height - 1; y >= 0; --y) {
         bool row_is_full = true;
         for (int x = 0; x < game_width; ++x) {
@@ -166,7 +164,7 @@ void Game::clearFullRows() {
                 break;
             }
         }
-        
+
         if (!row_is_full) {
             // 保留非满行
             new_board[new_row] = game_board[y];
@@ -175,12 +173,12 @@ void Game::clearFullRows() {
             rows_cleared++;
         }
     }
-    
+
     // 填充顶部空行
     for (int y = new_row; y >= 0; --y) {
         new_board[y].fill(std::nullopt);
     }
-    
+
     // 更新游戏板
     game_board = new_board;
 
@@ -204,9 +202,8 @@ void Game::spawnNewBlock() {
         return;
     }
 
-    falling_block_buf = *next_block;
-    current_action.block = &falling_block_buf;
-    current_action.anchor = Pos(game_width / 2, game_height - 2); // 调整初始位置
+    // 使用新接口，统一赋值，避免指向临时变量或非法指针
+    setCurrentBlock(*next_block, Pos(game_width / 2, game_height - 2));
 
     next_block = getRandomBlock();
 
@@ -214,4 +211,16 @@ void Game::spawnNewBlock() {
         m_is_game_over = true;
         if (score >= 0) score = -score;
     }
+
+    /*
+    // 旧代码
+    falling_block_buf = *next_block;
+    current_action.block = &falling_block_buf;
+    current_action.anchor = Pos(game_width / 2, game_height - 2); // 调整初始位置
+    next_block = getRandomBlock();
+    if (!isValidAction(current_action)) {
+        m_is_game_over = true;
+        if (score >= 0) score = -score;
+    }
+    */
 }
