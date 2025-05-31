@@ -28,6 +28,6 @@ std::unique_ptr<Block> Block::rotate() const {
         new_occupied.emplace_back(new_x, new_y);
     }
 
-    return std::make_unique<Block>(
-        this->label, this->color, std::move(new_occupied), this->anchor);
+    return std::make_unique<Block>(this->label, this->color,
+                                   std::move(new_occupied), this->anchor);
 }

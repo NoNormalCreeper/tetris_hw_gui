@@ -52,8 +52,6 @@ private:
     // --- 辅助函数 ---
     static std::unique_ptr<Block>getRandomBlock(); // 随机生成一个方块
     bool isValidAction(const Block& block, const Pos& anchor) const; // 检查方块在指定位置是否有效
-
-    Block falling_block_buf = k_Block::O; // 当前下落方块的实体副本，防止悬空指针
 };
 
 #endif //GAME_H

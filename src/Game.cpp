@@ -3,7 +3,7 @@
 Game::Game()
     : game_board(std::array<std::array<std::optional<char>, game_width>,
                             game_height>()), m_is_game_over(false),next_block(nullptr),
-    current_action(), falling_block_buf(k_Block::O)  // 这里随便初始化一个Block，不影响后续功能
+    current_action()  // 这里随便初始化一个Block，不影响后续功能
     {
     // 初始化游戏区域
     for (auto& row : game_board) {
