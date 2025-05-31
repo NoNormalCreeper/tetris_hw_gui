@@ -35,7 +35,7 @@ public:
     void placeCurrentBlock();   // 将当前方块固定到棋盘上
     void clearFullRows();    // 检查并消除满行，增加分数
     void spawnNewBlock();    // 生成新的当前方块和下一个方块
-    bool isGameOver() const; // 检查游戏是否结束
+    [[nodiscard]] bool isGameOver() const; // 检查游戏是否结束
 
     // 新增：统一设置当前活动方块，避免悬空指针和临时变量指针问题
     void setCurrentBlock(std::unique_ptr<Block> block, const Pos& anchor);
@@ -50,8 +50,13 @@ private:
     bool m_is_game_over = false;  // 添加初始化，防止未初始化即读取
 
     // --- 辅助函数 ---
-    static std::unique_ptr<Block>getRandomBlock(); // 随机生成一个方块
-    bool isValidAction(const Block& block, const Pos& anchor) const; // 检查方块在指定位置是否有效
+    std::unique_ptr<Block> getRandomBlock(); // 随机生成一个方块
+    [[nodiscard]] bool isValidAction(const Block& block, const Pos& anchor) const; // 检查方块在指定位置是否有效
+
+    // 随机数生成器
+    std::random_device m_rd = std::random_device();
+    std::mt19937 m_gen = std::mt19937(m_rd());
+    std::uniform_int_distribution<size_t> m_dist = std::uniform_int_distribution<size_t>(0, k_Block::list.size() - 1);
 };
 
 #endif //GAME_H

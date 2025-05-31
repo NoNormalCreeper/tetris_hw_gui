@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->context = Context();
+    // this->context = Context();
     setNextBlockWidget(context.game.next_block->color);
 
     // connect timer timeout signal

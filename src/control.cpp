@@ -116,7 +116,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         if (event->key() == Qt::Key_Return ||
             event->key() == Qt::Key_Enter) // 回车键返回主菜单
         {
-            context = Context();
+            // context = Context();
             context.status = MAIN_MENU;
             // 计时器此时已停止
             syncBoardAndActionToUi();

@@ -10,12 +10,6 @@ Game::Game()
         row.fill(std::nullopt);
     }
 
-    static bool seeded = false;
-    if (!seeded) {
-        std::srand(static_cast<unsigned int>(std::time(nullptr)));
-        seeded = true;
-    }
-
     //  防止 Block list 为空导致非法访问
     if (k_Block::list.empty()) {
         throw std::runtime_error("Block list is empty.");
@@ -29,6 +23,9 @@ Game::Game()
     spawnNewBlock();   // spawnNewBlock 会完成 falling_block_buf和current_action.block初始化
 
     // setInitAction(next_block); // 旧代码注释掉，不再使用，防止悬空指针
+    // 初始化随机数生成器
+    m_gen = std::mt19937(m_rd());
+    m_dist = std::uniform_int_distribution<size_t>(0, k_Block::list.size() - 1);
 }
 
 // 新增统一接口管理 current_action.block
@@ -43,8 +40,7 @@ std::unique_ptr<Block> Game::getRandomBlock() {
         return nullptr; // 防止空表，返回 nullptr
     }
 
-    int index = std::rand() % k_Block::list.size();
-    return std::make_unique<Block>(k_Block::list[index]);
+    return std::make_unique<Block>(k_Block::list.at(m_dist(m_gen)));
 }
 
 // const Action& Game::setInitAction(const Block* current_block) {
@@ -180,7 +176,7 @@ void Game::clearFullRows() {
         if (!is_full) {
             // 不是满行，则复制到写入位置
             if (write_row != read_row) {
-                game_board.at(write_row) = std::move(game_board.at(read_row));
+                game_board.at(write_row) = game_board.at(read_row);
             }
             write_row++;
         }
