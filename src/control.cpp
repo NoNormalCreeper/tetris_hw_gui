@@ -16,7 +16,7 @@
 // - bool tryRotate();
 
 // 定义游戏速度，后续可以调整或设为动态变化 (例如，与等级挂钩)
-const int GAME_TIMER_INTERVAL_MS = 500; // 游戏计时器间隔，单位：毫秒
+constexpr int GAME_TIMER_INTERVAL_MS = 500; // 游戏计时器间隔，单位：毫秒
 
 void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
     if (!event) {

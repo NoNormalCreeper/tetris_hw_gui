@@ -21,8 +21,8 @@ std::unique_ptr<Block> Block::rotate() const {
 
     for (const auto& pos : this->occupied) {
         // 修正旋转公式：顺时针旋转90度 (x,y) -> (y, -x)
-        int relative_x = pos.x - anchor.x;
-        int relative_y = pos.y - anchor.y;
+        const int relative_x = pos.x - anchor.x;
+        const int relative_y = pos.y - anchor.y;
         int new_x = anchor.x - relative_y;
         int new_y = anchor.y + relative_x;
         new_occupied.emplace_back(new_x, new_y);
