@@ -146,43 +146,57 @@ void Game::placeCurrentBlock() {
 }
 
 void Game::clearFullRows() {
-    int rows_cleared = 0;
-    std::array<std::array<std::optional<char>, game_width>, game_height> new_board;
-    int new_row = game_height - 1; // 从底部开始填充
+    std::vector<int> full_lines;
+    full_lines.reserve(game_height);
 
-    for (int y = game_height - 1; y >= 0; --y) {
-        bool row_is_full = true;
+    // find full lines
+    for (int y = 0; y < game_height; ++y) {
+        bool is_line_full = true;
         for (int x = 0; x < game_width; ++x) {
-            if (!game_board[y][x].has_value()) {
-                row_is_full = false;
+            if (!game_board.at(y).at(x).has_value()) {
+                is_line_full = false;
+                break;
+            }
+        }
+        if (is_line_full) {
+            full_lines.push_back(y);
+        }
+    }
+
+    const auto rows_cleared = full_lines.size();
+    if (rows_cleared == 0) return;
+
+    // two pointers
+    int write_row = 0;
+    for (int read_row = 0; read_row < game_height; ++read_row) {
+        bool is_full = false;
+        for (const int full_y : full_lines) {
+            if (read_row == full_y) {
+                is_full = true;
                 break;
             }
         }
 
-        if (!row_is_full) {
-            // 保留非满行
-            new_board[new_row] = game_board[y];
-            new_row--;
-        } else {
-            rows_cleared++;
+        if (!is_full) {
+            // 不是满行，则复制到写入位置
+            if (write_row != read_row) {
+                game_board.at(write_row) = std::move(game_board.at(read_row));
+            }
+            write_row++;
         }
     }
 
-    // 填充顶部空行
-    for (int y = new_row; y >= 0; --y) {
-        new_board[y].fill(std::nullopt);
+    // clear lines at top
+    for (int y = write_row; y < game_height; ++y) {
+        game_board.at(y).fill(std::nullopt); // 清空剩余行
     }
 
-    // 更新游戏板
-    game_board = new_board;
 
     // 更新分数
-    if (rows_cleared > 0) {
-        if (rows_cleared == 1) score += 100;
-        else if (rows_cleared == 2) score += 300;
-        else if (rows_cleared == 3) score += 500;
-        else if (rows_cleared >= 4) score += 800;
-    }
+    if (rows_cleared == 1) score += 100;
+    else if (rows_cleared == 2) score += 300;
+    else if (rows_cleared == 3) score += 500;
+    else score += 800;
 }
 
 bool Game::isGameOver() const {
