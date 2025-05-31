@@ -22,7 +22,7 @@ public:
 
     static const Block& getBlockByLabel(char label);
 
-    [[nodiscard]] Block rotate() const; // 返回顺时针旋转90度的新方块
+    [[nodiscard]] std::unique_ptr<Block> rotate() const; // 返回顺时针旋转90度的新方块
 };
 
 namespace k_Block {
@@ -41,7 +41,7 @@ const auto list = std::vector<Block>{I, L, J, O, S, T, Z};
 
 using Action = struct {
     // 玩家一次操作的动作
-    const Block* block{}; // 旋转后的当前方块
+    std::unique_ptr<Block> block; // 当前方块
     Pos anchor;
 };
 

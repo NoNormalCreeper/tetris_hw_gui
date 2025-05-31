@@ -40,7 +40,7 @@ void MainWindow::TestDigitNumber() { setScoreWidgetNumber(114514); }
 
 void MainWindow::TestBlockDrawing() {
     drawBlockOnBoard(k_Block::I, Pos(6, 3));
-    drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
+    // drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
 }
 
 int MainWindow::addCount() {

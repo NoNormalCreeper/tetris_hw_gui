@@ -128,7 +128,8 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
     }
 
     // draw current block in action
-    const auto& [block, anchor] = game.current_action;
+    const auto& block = game.current_action.block;
+    const auto& anchor = game.current_action.anchor;
     for (const auto& cell : block->occupied) {
         const auto cell_pos = anchor + (cell - block->anchor);
         setCellColor(cell_pos, std::optional(block->color));

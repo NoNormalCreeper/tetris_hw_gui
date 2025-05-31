@@ -14,7 +14,8 @@ const Block& Block::getBlockByLabel(const char label) {
                              "' not found");
 }
 
-Block Block::rotate() const {
+// Returns a COPY of the block rotated 90 degrees
+std::unique_ptr<Block> Block::rotate() const {
     std::vector<Pos> new_occupied;
     new_occupied.reserve(this->occupied.size());
 
@@ -27,5 +28,6 @@ Block Block::rotate() const {
         new_occupied.emplace_back(new_x, new_y);
     }
 
-    return Block(this->label, this->color, new_occupied, this->anchor);
+    return std::make_unique<Block>(
+        this->label, this->color, std::move(new_occupied), this->anchor);
 }

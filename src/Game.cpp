@@ -32,21 +32,19 @@ Game::Game()
 }
 
 // 新增统一接口管理 current_action.block
-void Game::setCurrentBlock(const Block& block, const Pos& anchor)
-{
-    // 将传入的Block拷贝到 falling_block_buf，保证生命周期和指针安全
-    falling_block_buf = block;
-    current_action.block = &falling_block_buf;
+void Game::setCurrentBlock(std::unique_ptr<Block> block, const Pos& anchor) {
+    // 使用 std::move 确保 block 的所有权转移
+    current_action.block = std::move(block);
     current_action.anchor = anchor;
 }
 
-const Block* Game::getRandomBlock() {
+std::unique_ptr<Block> Game::getRandomBlock() {
     if (k_Block::list.empty()) {
         return nullptr; // 防止空表，返回 nullptr
     }
 
     int index = std::rand() % k_Block::list.size();
-    return &k_Block::list[index];
+    return std::make_unique<Block>(k_Block::list[index]);
 }
 
 // const Action& Game::setInitAction(const Block* current_block) {
@@ -56,16 +54,13 @@ const Block* Game::getRandomBlock() {
 //     return this->current_action;
 // }
 
-bool Game::isValidAction(const Action& action) const {
-    const auto block = action.block;
-    const auto board_anchor = action.anchor;
-
-    if (!block || block->occupied.empty()) {
+bool Game::isValidAction(const Block& block, const Pos& anchor) const {
+    if (block.occupied.empty()) {
         return false; // 无效方块指针
     }
 
-    for (const auto& occupied_rel_pos : block->occupied) {
-        const Pos game_pos = board_anchor + (occupied_rel_pos - block->anchor);
+    for (const auto& occupied_rel_pos : block.occupied) {
+        const Pos game_pos = anchor + (occupied_rel_pos - block.anchor);
 
         if (game_pos.x < 0 || game_pos.x >= game_width) {
             return false;
@@ -85,7 +80,7 @@ bool Game::tryMoveLeft() {
         return false;
 
     const Pos new_anchor = current_action.anchor + Pos(-1, 0);
-    if (isValidAction({current_action.block, new_anchor})) {
+    if (isValidAction(*current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -97,7 +92,7 @@ bool Game::tryMoveRight() {
         return false;
 
     const Pos new_anchor = current_action.anchor + Pos(1, 0);
-    if (isValidAction({current_action.block, new_anchor})) {
+    if (isValidAction(*current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -109,7 +104,7 @@ bool Game::moveDown() {
         return false;
 
     const Pos new_anchor = current_action.anchor - Pos(0, 1);
-    if (isValidAction({current_action.block, new_anchor})) {
+    if (isValidAction(*current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -120,12 +115,11 @@ bool Game::tryRotate() {
     if (m_is_game_over || !current_action.block)
         return false;
 
-    Block rotated_block =
-        current_action.block->rotate(); // 获取旋转后方块的副本
+    auto rotated_block = current_action.block->rotate(); // 获取旋转后方块的副本
 
-    if (isValidAction({&rotated_block, current_action.anchor})) {
-        // 使用新统一接口设置旋转后方块，保证安全
-        setCurrentBlock(rotated_block, current_action.anchor);
+    if (isValidAction(*rotated_block, current_action.anchor)) {
+        current_action.block = std::move(rotated_block);
+        current_action.anchor = current_action.anchor; // 保持锚点不变
         return true;
     }
     return false;
@@ -203,11 +197,13 @@ void Game::spawnNewBlock() {
     }
 
     // 使用新接口，统一赋值，避免指向临时变量或非法指针
-    setCurrentBlock(*next_block, Pos(game_width / 2, game_height - 2));
+    // setCurrentBlock(next_block, Pos(game_width / 2, game_height - 2));
+    current_action.block = std::move(next_block);
+    current_action.anchor = Pos(game_width / 2, game_height - 3); // 调整初始位置
 
     next_block = getRandomBlock();
 
-    if (!isValidAction(current_action)) {
+    if (!isValidAction(*current_action.block, current_action.anchor)) {
         m_is_game_over = true;
         if (score >= 0) score = -score;
     }
