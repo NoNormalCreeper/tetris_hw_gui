@@ -51,7 +51,7 @@ private:
 
     // --- 辅助函数 ---
     std::unique_ptr<Block> getRandomBlock(); // 随机生成一个方块
-    [[nodiscard]] bool isValidAction(const Block& block, const Pos& anchor) const; // 检查方块在指定位置是否有效
+    [[nodiscard]] bool isValidAction(const std::unique_ptr<Block>&block, const Pos& anchor) const; // 检查方块在指定位置是否有效
 
     // 随机数生成器
     std::random_device m_rd = std::random_device();

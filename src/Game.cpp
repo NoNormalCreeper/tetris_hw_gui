@@ -50,13 +50,13 @@ std::unique_ptr<Block> Game::getRandomBlock() {
 //     return this->current_action;
 // }
 
-bool Game::isValidAction(const Block& block, const Pos& anchor) const {
-    if (block.occupied.empty()) {
+bool Game::isValidAction(const std::unique_ptr<Block>& block, const Pos& anchor) const {
+    if (block->occupied.empty()) {
         return false; // 无效方块指针
     }
 
-    for (const auto& occupied_rel_pos : block.occupied) {
-        const Pos game_pos = anchor + (occupied_rel_pos - block.anchor);
+    for (const auto& occupied_rel_pos : block->occupied) {
+        const Pos game_pos = anchor + (occupied_rel_pos - block->anchor);
 
         if (game_pos.x < 0 || game_pos.x >= game_width) {
             return false;
@@ -76,7 +76,7 @@ bool Game::tryMoveLeft() {
         return false;
 
     const Pos new_anchor = current_action.anchor + Pos(-1, 0);
-    if (isValidAction(*current_action.block, new_anchor)) {
+    if (isValidAction(current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -88,7 +88,7 @@ bool Game::tryMoveRight() {
         return false;
 
     const Pos new_anchor = current_action.anchor + Pos(1, 0);
-    if (isValidAction(*current_action.block, new_anchor)) {
+    if (isValidAction(current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -100,7 +100,7 @@ bool Game::moveDown() {
         return false;
 
     const Pos new_anchor = current_action.anchor - Pos(0, 1);
-    if (isValidAction(*current_action.block, new_anchor)) {
+    if (isValidAction(current_action.block, new_anchor)) {
         current_action.anchor = new_anchor;
         return true;
     }
@@ -113,7 +113,7 @@ bool Game::tryRotate() {
 
     auto rotated_block = current_action.block->rotate(); // 获取旋转后方块的副本
 
-    if (isValidAction(*rotated_block, current_action.anchor)) {
+    if (isValidAction(rotated_block, current_action.anchor)) {
         current_action.block = std::move(rotated_block);
         current_action.anchor = current_action.anchor; // 保持锚点不变
         return true;
@@ -213,12 +213,14 @@ void Game::spawnNewBlock() {
                          next_block->occupied.end(),
                          [](const Pos& a, const Pos& b) { return a.y < b.y; })
             ->y;
-    current_action.anchor = Pos(game_width / 2 - next_block->anchor.x - 1, game_height - block_height + next_block->anchor.y - 1); // 调整初始位置
+    current_action.anchor = Pos(game_width / 2 - next_block->anchor.x - 1,
+                                game_height - block_height +
+                                    next_block->anchor.y - 1); // 调整初始位置
     current_action.block = std::move(next_block);
 
     next_block = getRandomBlock();
 
-    if (!isValidAction(*current_action.block, current_action.anchor)) {
+    if (!isValidAction(current_action.block, current_action.anchor)) {
         m_is_game_over = true;
         if (score >= 0) score = -score;
     }
