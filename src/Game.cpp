@@ -208,8 +208,13 @@ void Game::spawnNewBlock() {
 
     // 使用新接口，统一赋值，避免指向临时变量或非法指针
     // setCurrentBlock(next_block, Pos(game_width / 2, game_height - 2));
+    const auto block_height =
+        std::max_element(next_block->occupied.begin(),
+                         next_block->occupied.end(),
+                         [](const Pos& a, const Pos& b) { return a.y < b.y; })
+            ->y;
+    current_action.anchor = Pos(game_width / 2 - next_block->anchor.x - 1, game_height - block_height + next_block->anchor.y - 1); // 调整初始位置
     current_action.block = std::move(next_block);
-    current_action.anchor = Pos(game_width / 2, game_height - 3); // 调整初始位置
 
     next_block = getRandomBlock();
 
