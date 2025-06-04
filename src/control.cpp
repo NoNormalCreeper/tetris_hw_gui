@@ -82,6 +82,14 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         // 空循环，持续下落
     }
     context.game.placeCurrentBlock();
+            context.game.placeCurrentBlock();
+            if (context.game.isGameOver()) {
+                context.status = GAME_OVER;
+                syncBoardAndActionToUi();
+                return;
+            }
+
+
     context.game.clearFullRows();
     // 更新分数显示
     setScoreWidgetNumber(abs(context.game.score));
