@@ -28,7 +28,6 @@ add_executable(tetris_gui src/main.cpp
         src/mainwindow.cpp
         src/mainwindow.h
         src/mainwindow.ui
-        src/ui_MainWindow.h
         src/cell_drawing.cpp
         src/cell_drawing.cpp
         src/Game.cpp

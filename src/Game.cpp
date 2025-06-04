@@ -133,12 +133,23 @@ void Game::placeCurrentBlock() {
     }
     // 检查是否因放置方块而导致堆叠过高 -> 游戏结束
 
-    for (int x = 0; x < game_width; ++x) {
+    /*for (int x = 0; x < game_width; ++x) {
         if (game_board[death_height -1][x].has_value()) {
             m_is_game_over = true;
             break;
         }
-     }
+     }*/
+    //简单粗暴：
+    //在方块放置后，检查第16行是否有方块（y坐标=16）
+    int critical_row = 16;
+    if (critical_row >= 0 && critical_row < game_height) {
+        for (int x = 0; x < game_width; ++x) {
+            if (game_board[critical_row][x].has_value()) {
+                m_is_game_over = true;
+                break;    // 只要y=16行任意一格有方块就结束
+            }
+        }
+    }
 }
 
 void Game::clearFullRows() {
