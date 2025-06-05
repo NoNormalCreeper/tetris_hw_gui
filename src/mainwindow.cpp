@@ -9,11 +9,15 @@
 #include "ui_MainWindow.h"
 // #include "loop.cpp"
 #include "Block.h"
+#include <QGraphicsDropShadowEffect>
+#include "mainwindow.h"
+
 
 namespace Ui {
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    //ui->gameBoardWidget->setStyleSheet("background-color: grey;");
 
     // this->context = Context();
     setNextBlockWidget(context.game.next_block->color);
@@ -28,6 +32,15 @@ MainWindow::MainWindow(QWidget* parent)
     // TestNextBlockDrawing();
     // TestDigitNumber();
     // TestBlockDrawing();
+
+    //初始状态下隐藏死亡菜单
+    ui->endMenu->setVisible(false);
+    // “Game Over”标签阴影代码
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
+    effect->setBlurRadius(16);
+    effect->setOffset(0, 6);
+    effect->setColor(QColor(0, 0, 0, 156));
+    ui->labelGameOver->setGraphicsEffect(effect);
 }
 
 MainWindow::~MainWindow() { delete ui; }

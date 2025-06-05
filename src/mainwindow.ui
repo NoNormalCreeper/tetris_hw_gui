@@ -5269,6 +5269,93 @@
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
      </widget>
+     <widget class="QFrame" name="endMenu">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>466</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #444444;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="labelGameOver">
+         <property name="styleSheet">
+          <string notr="true">font-size: 90px;
+    font-family: 'Fira Code', 'Consolas', 'Arial';
+    font-weight: bold;
+    /* color 这里不写，由Html富文本指定 */
+    qproperty-alignment: 'AlignCenter';
+    border: none;
+    background: transparent;</string>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff1744;&quot;&gt;G&lt;/span&gt;&lt;span style=&quot; color:#ff9100;&quot;&gt;a&lt;/span&gt;&lt;span style=&quot; color:#ffea00;&quot;&gt;m&lt;/span&gt;&lt;span style=&quot; color:#00e676;&quot;&gt;e &lt;/span&gt;&lt;span style=&quot; color:#2979ff;&quot;&gt;O&lt;/span&gt;&lt;span style=&quot; color:#7c4dff;&quot;&gt;v&lt;/span&gt;&lt;span style=&quot; color:#00e5ff;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot; color:#d500f9;&quot;&gt;r&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelGameOverCn">
+         <property name="styleSheet">
+          <string notr="true"> font-size: 38px;
+    font-family: 'MiSans', 'Microsoft YaHei', 'Arial';
+    font-weight: bold;
+    qproperty-alignment: 'AlignCenter';
+    border: none;
+    background: transparent;</string>
+         </property>
+         <property name="text">
+          <string>&lt;span style=&quot;color:#FF1744;&quot;&gt;游&lt;/span&gt;
+&lt;span style=&quot;color:#FFD600;&quot;&gt;戏&lt;/span&gt;
+&lt;span style=&quot;color:#00E676;&quot;&gt;结&lt;/span&gt;
+&lt;span style=&quot;color:#2979FF;&quot;&gt;束&lt;/span&gt;
+</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelTip">
+         <property name="styleSheet">
+          <string notr="true">font-size: 22px;
+    font-family: 'MiSans', 'Microsoft YaHei', 'Arial';
+    font-weight: bold;
+    color: #fff;
+    qproperty-alignment: 'AlignCenter';
+    border: none;
+    background: transparent;</string>
+         </property>
+         <property name="text">
+          <string>按 &lt;b&gt;Enter&lt;/b&gt; 再来一局　&lt;b&gt;Esc&lt;/b&gt; 退出游戏</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelScoreInfo">
+         <property name="styleSheet">
+          <string notr="true">font-size: 14px;
+    font-family: 'Fira Code', 'MiSans', 'Arial';
+    color: #fff;
+    qproperty-alignment: 'AlignCenter';
+    border: none;
+    background: transparent;</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <zorder>titleLabel</zorder>
      <zorder>nextBlockWidget</zorder>
      <zorder>nextBlockLabel</zorder>
@@ -5276,12 +5363,11 @@
      <zorder>layoutWidget</zorder>
      <zorder>deadLine</zorder>
      <zorder>startMenu</zorder>
+     <zorder>endMenu</zorder>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

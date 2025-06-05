@@ -5,6 +5,10 @@
 #include "Game.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QHBoxLayout>
+#include <QWidget>
+#include <QLCDNumber>
+
 #include <tuple>
 
 static auto to_top = [](const auto y) -> auto {
@@ -134,6 +138,8 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
         const auto cell_pos = anchor + (cell - block->anchor);
         setCellColor(cell_pos, std::optional(block->color));
     }
+
+    toogleEndMenu(this->context.status);
 }
 
 void Ui::MainWindow::toogleStartMenu(int status) {
@@ -146,8 +152,31 @@ void Ui::MainWindow::toogleStartMenu(int status) {
 }
 
 void Ui::MainWindow::toogleEndMenu(int status) {
+    if (!ui->endMenu) {
+        throw std::runtime_error("End menu widget not found");
+    }
 
+    if (status == GAME_OVER) {
+        ui->endMenu->setVisible(true);
+        // 居中部分
+        ui->endMenu->adjustSize();
+        int px = (this->width() - ui->endMenu->width()) / 2;
+        int py = (this->height() - ui->endMenu->height()) / 2;
+        ui->endMenu->move(px, py);
+        ui->endMenu->setVisible(true);
+
+        // 显示本局分数
+        ui->labelScoreInfo->setText(QString("本局得分: %1，真是太厉害啦！！！").arg(abs(context.game.score)));
+
+        // 停止计时器
+        timer.stop();
+
+    } else {
+        ui->endMenu->setVisible(false);
+    }
 }
+
+
 
 void Ui::MainWindow::syncMenuStatusToUi(){
     toogleStartMenu(this->context.status == MAIN_MENU);
