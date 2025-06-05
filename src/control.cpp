@@ -33,6 +33,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             context.status = PLAYING;
             syncMenuStatusToUi();
             syncBoardAndActionToUi();
+            setScoreWidgetNumber(0);
             timer.start(GAME_TIMER_INTERVAL_MS);
         }
         break;
