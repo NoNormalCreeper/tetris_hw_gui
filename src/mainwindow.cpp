@@ -17,7 +17,37 @@ namespace Ui {
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    //ui->gameBoardWidget->setStyleSheet("background-color: grey;");
+
+    //在游戏窗口内强制转换为深色模式，看起来更美观
+    QString darkStyle = R"(
+QWidget {
+    background-color: #232323;
+    color: #EEEEEE;
+}
+QFrame {
+    background-color: #232323;
+    color: #EEEEEE;
+}
+QPushButton {
+    background-color: #444;
+    color: #EEEEEE;
+    border: 1px solid #555;
+    border-radius: 3px;
+    padding: 3px 8px;
+}
+QLabel {
+    color: #EEEEEE;
+}
+QLCDNumber {
+    background: #333;
+    color: #80FF80;
+    border: none;
+}
+)";
+
+    // 应用到主窗口（包括其子控件）
+    this->setStyleSheet(darkStyle);
+
 
     // this->context = Context();
     setNextBlockWidget(context.game.next_block->color);
