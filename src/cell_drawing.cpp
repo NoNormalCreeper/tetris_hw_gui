@@ -128,6 +128,17 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
                 const auto& cell = Block::getBlockByLabel(cell_content.value());
                 setCellColor(cell_pos, std::optional(cell.color));
             }
+
+            //
+            //查看(0,8)的渲染问题
+            if (!cell_content.has_value()) {
+                qDebug() << "[0,8] cell EMPTY";
+            } else {
+                const auto& val = cell_content.value();
+                const auto& cell = Block::getBlockByLabel(val);
+                qDebug() << "[0,8] label:" << QChar(val) << " color:" << cell.color;
+            }
+
         }
     }
 

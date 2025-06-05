@@ -2211,16 +2211,6 @@
            <property name="frameShadow">
             <enum>QFrame::Shadow::Raised</enum>
            </property>
-           <widget class="QWidget" name="widget" native="true">
-            <property name="geometry">
-             <rect>
-              <x>-430</x>
-              <y>-100</y>
-              <width>621</width>
-              <height>361</height>
-             </rect>
-            </property>
-           </widget>
           </widget>
          </item>
         </layout>
@@ -2713,27 +2703,6 @@
            <property name="frameShadow">
             <enum>QFrame::Shadow::Raised</enum>
            </property>
-           <widget class="QWidget" name="widget_2" native="true">
-            <property name="geometry">
-             <rect>
-              <x>-150</x>
-              <y>-60</y>
-              <width>221</width>
-              <height>191</height>
-             </rect>
-            </property>
-            <widget class="QWidget" name="verticalLayoutWidget">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>0</y>
-               <width>160</width>
-               <height>80</height>
-              </rect>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout"/>
-            </widget>
-           </widget>
           </widget>
          </item>
          <item>

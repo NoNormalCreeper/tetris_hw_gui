@@ -124,7 +124,8 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
 
     case GAME_OVER: // 游戏结束状态
         if (event->key() == Qt::Key_Return ||
-            event->key() == Qt::Key_Enter  ||  event->key() == Qt::Key_Escape) // 回车键或Esc键返回主菜单
+            event->key() == Qt::Key_Enter  ||  event->key() == Qt::Key_Escape)
+            // 回车键或Esc键返回主菜单
         {
             context.reset();//Context()已经被删了，所以写个reset
             context.status = MAIN_MENU;
