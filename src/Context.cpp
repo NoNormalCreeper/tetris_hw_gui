@@ -7,3 +7,8 @@
 Context::Context() : game(Game()), repository(Repository("game_data.json")) {
     // TODO: 这里的路径需要根据实际情况修改
 }
+void Context::reset() {
+    status = MAIN_MENU;
+    game.reset();
+    repository.reset();
+}

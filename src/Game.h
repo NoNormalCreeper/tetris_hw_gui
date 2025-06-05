@@ -26,6 +26,9 @@ public:
     // 游戏当前操作状态
     Action current_action;
 
+    //手动清理
+    void reset();
+
     Game();
 
     bool tryMoveLeft();      // 尝试左移当前方块

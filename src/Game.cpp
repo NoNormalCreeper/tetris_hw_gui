@@ -248,3 +248,35 @@ void Game::spawnNewBlock() {
     }
     */
 }
+void Game::reset() {
+    // 手动清空所有成员变量
+
+    // 清空游戏棋盘
+    for (auto& row : game_board)
+        row.fill(std::nullopt);
+
+    // 分数归零
+    score = 0;
+
+    // 游戏结束状态 false
+    m_is_game_over = false;
+
+    // current_action 重置
+    current_action.reset();
+
+    // 随机数引擎重新播种（重置m_gen等）
+    m_gen.seed(m_rd()); // 正确做法
+    m_dist = std::uniform_int_distribution<size_t>(0, k_Block::list.size() - 1);
+
+    // next_block 设置为新的Block
+    if (k_Block::list.empty()) {
+        throw std::runtime_error("Block list is empty.");
+    }
+    next_block = getRandomBlock();
+
+    if (!next_block) {
+        throw std::runtime_error("Get random block failed.");
+    }
+
+    spawnNewBlock(); // 自动完成current_action.block初始化
+}

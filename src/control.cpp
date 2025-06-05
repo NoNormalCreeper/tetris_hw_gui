@@ -4,6 +4,8 @@
 
 #include "mainwindow.h" // 包含了 Context.h, Game.h (通过头文件链式依赖)
 #include <QKeyEvent>
+#include "ui_mainwindow.h"
+
 
 // 假设 Game 类中存在的
 // - bool moveDown(): 方块下落一格，若无法下落则返回 false
@@ -96,7 +98,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
     context.game.spawnNewBlock();
     // 更新下一个方块显示
     setNextBlockWidget(context.game.next_block->color);
-    
+
     if (context.game.isGameOver()) {
         context.status = GAME_OVER;
         timer.stop();
@@ -122,12 +124,16 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
 
     case GAME_OVER: // 游戏结束状态
         if (event->key() == Qt::Key_Return ||
-            event->key() == Qt::Key_Enter) // 回车键返回主菜单
+            event->key() == Qt::Key_Enter  ||  event->key() == Qt::Key_Escape) // 回车键或Esc键返回主菜单
         {
-            // context = Context();
+            context.reset();//Context()已经被删了，所以写个reset
             context.status = MAIN_MENU;
-            // 计时器此时已停止
+            timer.stop();
+            syncMenuStatusToUi();
             syncBoardAndActionToUi();
+            // 手动隐藏endMenu双重保险
+            if(ui->endMenu) ui->endMenu->setVisible(false);
+            return;
         }
         break;
 
@@ -143,7 +149,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         break;
 
     default: // 其他未知状态
-        QWidget::keyPressEvent(event); 
+        QWidget::keyPressEvent(event);
         break;
     }
 }

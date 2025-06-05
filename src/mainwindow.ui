@@ -5335,7 +5335,7 @@
     background: transparent;</string>
          </property>
          <property name="text">
-          <string>按 &lt;b&gt;Enter&lt;/b&gt; 再来一局　&lt;b&gt;Esc&lt;/b&gt; 退出游戏</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;按 Enter 或 Esc 返回主菜单&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>

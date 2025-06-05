@@ -179,5 +179,9 @@ void Ui::MainWindow::toogleEndMenu(int status) {
 
 
 void Ui::MainWindow::syncMenuStatusToUi(){
+    // 控制主菜单（startMenu）
     toogleStartMenu(this->context.status == MAIN_MENU);
+
+    // 控制结束菜单（endMenu）
+    toogleEndMenu(this->context.status);
 }

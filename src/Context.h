@@ -24,6 +24,7 @@ public:
     Repository repository;     // 数据库对象
 
     Context(); // TODO
+    void reset();
 };
 
 #endif //CONTEXT_H

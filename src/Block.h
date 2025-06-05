@@ -39,11 +39,12 @@ const auto list = std::vector<Block>{I, L, J, O, S, T, Z};
 
 } // namespace k_Block
 
-using Action = struct {
-    // 玩家一次操作的动作
-    std::unique_ptr<Block> block; // 当前方块
+struct Action {
+    std::unique_ptr<Block> block;
     Pos anchor;
+    void reset() { block.reset(); anchor = Pos(0, 0); }
 };
+
 
 
 #endif //BLOCK_H

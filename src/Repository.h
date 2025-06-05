@@ -8,7 +8,10 @@
 #include <optional>
 #include <string>
 
-using RepoData = struct {}; // TODO: Define the structure of RepoData
+struct RepoData {
+    // TODO: Define member fields for your repo data!
+};
+
 
 class Repository {
 public:
@@ -17,7 +20,7 @@ public:
 
     void read();
     void write();
-
+    void reset();
     explicit Repository(const std::string& file_path);
     ~Repository() = default;
 };
