@@ -132,12 +132,22 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
         }
     }
 
-    // draw current block in action
-    const auto& block = game.current_action.block;
-    const auto& anchor = game.current_action.anchor;
-    for (const auto& cell : block->occupied) {
-        const auto cell_pos = anchor + (cell - block->anchor);
-        setCellColor(cell_pos, std::optional(block->color));
+    if (context.status == PLAYING) {
+        // 只有游戏状态为PLAYING时，才绘制当前活动方块，否则在开始菜单上显示新方块不太美观
+        const auto& block = game.current_action.block;
+        const auto& anchor = game.current_action.anchor;
+        for (const auto& cell : block->occupied) {
+            const auto cell_pos = anchor + (cell - block->anchor);
+            setCellColor(cell_pos, std::optional(block->color));
+        }
+    } else {
+        // 在非PLAYING状态时，清除当前方块占的格子颜色，防止残留显示
+        const auto& block = game.current_action.block;
+        const auto& anchor = game.current_action.anchor;
+        for (const auto& cell : block->occupied) {
+            const auto cell_pos = anchor + (cell - block->anchor);
+            setCellColor(cell_pos, std::nullopt);
+        }
     }
 
     toogleEndMenu(this->context.status);
