@@ -5376,7 +5376,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: red; </string>
+       <string notr="true">background-color: #444444; </string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
@@ -5408,6 +5408,57 @@
        </item>
       </layout>
      </widget>
+     <widget class="QLabel" name="labelScore">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>200</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> font-size:14px;qproperty-alignment: AlignCenter;</string>
+      </property>
+      <property name="text">
+       <string>当前分数:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelHistoryScore">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>350</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> font-size:14px;qproperty-alignment: AlignCenter;</string>
+      </property>
+      <property name="text">
+       <string>历史最高：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="historyScore">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>400</y>
+        <width>151</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> font-size:36px;qproperty-alignment: AlignRight;</string>
+      </property>
+      <property name="text">
+       <string>10000</string>
+      </property>
+     </widget>
+     <zorder>labelScore</zorder>
+     <zorder>labelHistoryScore</zorder>
+     <zorder>historyScore</zorder>
      <zorder>TipP</zorder>
      <zorder>TipEsc</zorder>
      <zorder>titleLabel</zorder>
