@@ -63,8 +63,10 @@ QLCDNumber {
     // TestDigitNumber();
     // TestBlockDrawing();
 
-    //初始状态下隐藏死亡菜单
+    //初始状态下隐藏死亡菜单和暂停菜单
     ui->endMenu->setVisible(false);
+    ui->pauseMenu->setVisible(false);
+
     // “Game Over”标签阴影代码
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
     effect->setBlurRadius(16);
@@ -85,9 +87,10 @@ void MainWindow::TestBlockDrawing() {
     drawBlockOnBoard(k_Block::I, Pos(6, 3));
     // drawBlockOnBoard(k_Block::I.rotate(), Pos(6, 12));
 }
-
 int MainWindow::addCount() {
     count++;
     return count;
 }
+
+
 } // Ui

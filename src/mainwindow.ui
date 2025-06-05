@@ -5366,6 +5366,48 @@
        <string>Esc        返回主菜单</string>
       </property>
      </widget>
+     <widget class="QFrame" name="pauseMenu">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>200</y>
+        <width>675</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: red; </string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="labelPauseCn">
+         <property name="styleSheet">
+          <string notr="true"> font-size: 90px;    font-family: 'MiSans', 'Microsoft YaHei', 'Arial';    font-weight: bold;   qproperty-alignment: 'AlignCenter';    color:white;</string>
+         </property>
+         <property name="text">
+          <string>暂停中</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelTipsOfPause">
+         <property name="styleSheet">
+          <string notr="true">
+ font-size: 20px;    font-family: 'MiSans', 'Microsoft YaHei', 'Arial';    font-weight: bold;   qproperty-alignment: 'AlignCenter';    color:white;</string>
+         </property>
+         <property name="text">
+          <string>按P键继续游戏      按Esc返回开始菜单</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <zorder>TipP</zorder>
      <zorder>TipEsc</zorder>
      <zorder>titleLabel</zorder>
@@ -5376,6 +5418,7 @@
      <zorder>endMenu</zorder>
      <zorder>deadLine</zorder>
      <zorder>startMenu</zorder>
+     <zorder>pauseMenu</zorder>
     </widget>
    </item>
   </layout>

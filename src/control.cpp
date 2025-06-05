@@ -27,6 +27,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
 
     switch (context.status) {
     case MAIN_MENU: // 主菜单状态
+
         if (event->key() == Qt::Key_Return ||
             event->key() == Qt::Key_Enter) // 回车键开始游戏
         {
@@ -39,11 +40,33 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         break;
 
     case PLAYING: // 游戏进行中状态
-        // 新增暂停状态
+        // 暂停状态
         if (event->key() == Qt::Key_P) {
             context.status = PAUSE;
             timer.stop();
-            syncBoardAndActionToUi(); // 可选: 更新UI以显示“已暂停”信息或遮罩
+            syncMenuStatusToUi();
+            syncBoardAndActionToUi();
+            return;
+        }
+
+        // 按ESC退出并回到主菜单
+        if (event->key() == Qt::Key_Escape) {
+            context.reset(); // 清理游戏状态
+            context.status = MAIN_MENU;
+            timer.stop();
+            syncMenuStatusToUi();
+            syncBoardAndActionToUi();
+            // 手动隐藏endMenu双重保险
+            if (ui->endMenu) ui->endMenu->setVisible(false);
+            return;
+        }
+
+        //按P暂停
+        if (event->key() == Qt::Key_P) {
+            context.status = PAUSE;
+            timer.stop();
+            syncMenuStatusToUi();
+            syncBoardAndActionToUi();
             return;
         }
 
@@ -119,11 +142,23 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         {
             context.status = PLAYING;
             timer.start(GAME_TIMER_INTERVAL_MS);
+            syncMenuStatusToUi();
             syncBoardAndActionToUi();
+        }
+        // 暂停时按Esc回主菜单
+        if (event->key() == Qt::Key_Escape) {
+            context.reset();
+            context.status = MAIN_MENU;
+            timer.stop();
+            syncMenuStatusToUi();
+            syncBoardAndActionToUi();
+            if(ui->endMenu) ui->endMenu->setVisible(false);
+            return;
         }
         break;
 
     case GAME_OVER: // 游戏结束状态
+
         if (event->key() == Qt::Key_Return ||
             event->key() == Qt::Key_Enter  ||  event->key() == Qt::Key_Escape)
             // 回车键或Esc键返回主菜单
@@ -133,7 +168,7 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             timer.stop();
             syncMenuStatusToUi();
             syncBoardAndActionToUi();
-            // 手动隐藏endMenu双重保险
+            // 手动隐藏endMenu,保险
             if(ui->endMenu) ui->endMenu->setVisible(false);
             return;
         }

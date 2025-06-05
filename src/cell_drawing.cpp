@@ -132,7 +132,7 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
         }
     }
 
-    if (context.status == PLAYING) {
+    if (context.status != MAIN_MENU) {
         // 只有游戏状态为PLAYING时，才绘制当前活动方块，否则在开始菜单上显示新方块不太美观
         const auto& block = game.current_action.block;
         const auto& anchor = game.current_action.anchor;
@@ -189,10 +189,17 @@ void Ui::MainWindow::toogleEndMenu(int status) {
 
 
 
-void Ui::MainWindow::syncMenuStatusToUi(){
+void Ui::MainWindow::syncMenuStatusToUi() {
     // 控制主菜单（startMenu）
     toogleStartMenu(this->context.status == MAIN_MENU);
 
     // 控制结束菜单（endMenu）
     toogleEndMenu(this->context.status);
+
+    // 只在暂停状态显示pauseMenu
+    if(ui->pauseMenu){
+        ui->pauseMenu->setVisible(this->context.status == PAUSE);
+        if (this->context.status == PAUSE)
+            ui->pauseMenu->raise(); // 可以让暂停菜单浮到最前
+    }
 }
