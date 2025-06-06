@@ -139,16 +139,16 @@ void Game::placeCurrentBlock() {
             break;
         }
      }*/
-    //简单粗暴：
-    //在方块放置后，检查第16行是否有方块（y坐标=16）
+    // 简单粗暴：
+    // 在方块放置后，检查第16行是否有方块（y坐标=16）
     int critical_row = 16;
+
     if (critical_row >= 0 && critical_row < game_height) {
-        for (int x = 0; x < game_width; ++x) {
-            if (game_board[critical_row][x].has_value()) {
-                m_is_game_over = true;
-                break;    // 只要y=16行任意一格有方块就结束
-            }
-        }
+        m_is_game_over = std::any_of(
+            game_board.at(critical_row).begin(),
+            game_board.at(critical_row).end(),
+            [](const std::optional<char>& cell) { return cell.has_value(); }
+        );
     }
 }
 
