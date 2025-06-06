@@ -106,13 +106,13 @@ void saveHistoryScore(int score) {
     }
 }
 
-void Ui::MainWindow::updateHistoryScore(int currentScore) {
+void MainWindow::updateHistoryScore(int currentScore) {
     int historyScore = loadHistoryScore();
     if (currentScore > historyScore) {
         saveHistoryScore(currentScore);
         historyScore = currentScore;
     }
-    ui->labelHighScore->setText(QString("最高分：%1").arg(historyScore));
+    ui->labelHistoryScore->setText(QString("最高分：%1").arg(historyScore));
 }
 
 

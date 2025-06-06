@@ -39,7 +39,7 @@ public:
     void TestNextBlockDrawing();
     void TestDigitNumber();
     void TestBlockDrawing();
-    void updateHistoryScore(const int currentScore);
+    void updateHistoryScore(int currentScore);
 
 private:
     Ui::MainWindow* ui;
