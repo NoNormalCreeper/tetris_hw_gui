@@ -55,20 +55,14 @@ bool Game::isValidAction(const std::unique_ptr<Block>& block, const Pos& anchor)
         return false; // 无效方块指针
     }
 
-    for (const auto& occupied_rel_pos : block->occupied) {
-        const Pos game_pos = anchor + (occupied_rel_pos - block->anchor);
-
-        if (game_pos.x < 0 || game_pos.x >= game_width) {
-            return false;
-        }
-        if (game_pos.y < 0 || game_pos.y >= game_height) {
-            return false;
-        }
-        if (game_board.at(game_pos.y).at(game_pos.x).has_value()) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of(
+        block->occupied.begin(), block->occupied.end(),
+        [&](const Pos& rel_pos) {
+            const Pos game_pos = anchor + (rel_pos - block->anchor);
+            return game_pos.x >= 0 && game_pos.x < game_width &&
+                   game_pos.y >= 0 && game_pos.y < game_height &&
+                   !game_board.at(game_pos.y).at(game_pos.x).has_value();
+            });
 }
 
 bool Game::tryMoveLeft() {
