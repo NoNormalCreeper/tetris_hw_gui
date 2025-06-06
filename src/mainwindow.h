@@ -1,3 +1,4 @@
+
 //
 // Created by Rikka on 2025/5/15.
 //
@@ -38,6 +39,7 @@ public:
     void TestNextBlockDrawing();
     void TestDigitNumber();
     void TestBlockDrawing();
+    void updateHistoryScore(const int currentScore);
 
 private:
     Ui::MainWindow* ui;
@@ -59,7 +61,6 @@ private:
     void toogleStartMenu(int status);
     void toogleEndMenu(int status);
     void syncMenuStatusToUi();
-
     // 事件处理相关函数
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
@@ -68,8 +69,11 @@ private:
     void onTimeOut(
         Context& ctx); // TODO: （该函数签名为暂定）实现游戏主循环的超时处理函数
 
-        // 菜单等其他界面相关函数
-    };
+    // 菜单等其他界面相关函数
+};
 } // Ui
 
 #endif //MAINWINDOW_H
+
+
+

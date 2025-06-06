@@ -5437,7 +5437,7 @@
        <string notr="true"> font-size:14px;qproperty-alignment: AlignCenter;</string>
       </property>
       <property name="text">
-       <string>历史最高：</string>
+       <string>历史记录：</string>
       </property>
      </widget>
      <widget class="QLabel" name="historyScore">
@@ -5453,7 +5453,7 @@
        <string notr="true"> font-size:36px;qproperty-alignment: AlignRight;</string>
       </property>
       <property name="text">
-       <string>10000</string>
+       <string>0</string>
       </property>
      </widget>
      <zorder>labelScore</zorder>

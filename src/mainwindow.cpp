@@ -10,6 +10,7 @@
 // #include "loop.cpp"
 #include "Block.h"
 #include <QGraphicsDropShadowEffect>
+#include <QSettings>
 #include "mainwindow.h"
 
 
@@ -92,5 +93,29 @@ int MainWindow::addCount() {
     return count;
 }
 
+int loadHistoryScore() {
+    QSettings settings("lhxbi", "tetris");
+    return settings.value("historyScore", 0).toInt();
+}
+
+void saveHistoryScore(int score) {
+    QSettings settings("lhxbi", "tetris");
+    int oldScore = settings.value("historyScore", 0).toInt();
+    if (score > oldScore) {
+        settings.setValue("historyScore", score);
+    }
+}
+
+void Ui::MainWindow::updateHistoryScore(int currentScore) {
+    int historyScore = loadHistoryScore();
+    if (currentScore > historyScore) {
+        saveHistoryScore(currentScore);
+        historyScore = currentScore;
+    }
+    ui->labelHighScore->setText(QString("最高分：%1").arg(historyScore));
+}
+
 
 } // Ui
+
+
