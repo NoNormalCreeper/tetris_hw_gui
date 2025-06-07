@@ -1,12 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 #include "Block.h"
-#include <array>
-#include <optional>
 #include <algorithm>
-#include <vector>
+#include <array>
 #include <ctime>
+#include <optional>
 #include <random>
+#include <vector>
 
 class Game {
 public:
@@ -26,35 +26,37 @@ public:
     // 游戏当前操作状态
     Action current_action;
 
-    //手动清理
+    // 手动清理
     void reset();
 
     Game();
 
-    bool tryMoveLeft();      // 尝试左移当前方块
-    bool tryMoveRight();     // 尝试右移当前方块
-    bool tryRotate();        // 尝试旋转当前方块
-    bool moveDown();         // 尝试将当前方块下落一格
-    void placeCurrentBlock();   // 将当前方块固定到棋盘上
-    void clearFullRows();    // 检查并消除满行，增加分数
-    void spawnNewBlock();    // 生成新的当前方块和下一个方块
+    bool tryMoveLeft();                    // 尝试左移当前方块
+    bool tryMoveRight();                   // 尝试右移当前方块
+    bool tryRotate();                      // 尝试旋转当前方块
+    bool moveDown();                       // 尝试将当前方块下落一格
+    void placeCurrentBlock();              // 将当前方块固定到棋盘上
+    void clearFullRows();                  // 检查并消除满行，增加分数
+    void spawnNewBlock();                  // 生成新的当前方块和下一个方块
     [[nodiscard]] bool isGameOver() const; // 检查游戏是否结束
 
     // 新增：统一设置当前活动方块，避免悬空指针和临时变量指针问题
     void setCurrentBlock(std::unique_ptr<Block> block, const Pos& anchor);
 
 private:
-    //为了避免指针悬空或失效，不再使用setInitAction
-    //current_action.block 需要指向正在活动的 falling_block_buf
-    //而setInitAction会无条件让 current_action.block 指向传进来的 Block 指针
-    //  const Action& setInitAction(const Block* current_block);   // 已注销
+    // 为了避免指针悬空或失效，不再使用setInitAction
+    // current_action.block 需要指向正在活动的 falling_block_buf
+    // 而setInitAction会无条件让 current_action.block 指向传进来的 Block 指针
+    //   const Action& setInitAction(const Block* current_block);   // 已注销
 
     // 游戏结束标志
-    bool m_is_game_over = false;  // 添加初始化，防止未初始化即读取
+    bool m_is_game_over = false; // 添加初始化，防止未初始化即读取
 
     // --- 辅助函数 ---
     std::unique_ptr<Block> getRandomBlock(); // 随机生成一个方块
-    [[nodiscard]] bool isValidAction(const std::unique_ptr<Block>&block, const Pos& anchor) const; // 检查方块在指定位置是否有效
+    [[nodiscard]] bool
+    isValidAction(const std::unique_ptr<Block>& block,
+                  const Pos& anchor) const; // 检查方块在指定位置是否有效
 
     // 随机数生成器
     std::random_device m_rd = std::random_device();

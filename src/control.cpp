@@ -3,9 +3,8 @@
 //
 
 #include "mainwindow.h" // 包含了 Context.h, Game.h (通过头文件链式依赖)
-#include <QKeyEvent>
 #include "ui_mainwindow.h"
-
+#include <QKeyEvent>
 
 // 假设 Game 类中存在的
 // - bool moveDown(): 方块下落一格，若无法下落则返回 false
@@ -57,11 +56,12 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             syncMenuStatusToUi();
             syncBoardAndActionToUi();
             // 手动隐藏endMenu双重保险
-            if (ui->endMenu) ui->endMenu->setVisible(false);
+            if (ui->endMenu)
+                ui->endMenu->setVisible(false);
             return;
         }
 
-        //按P暂停
+        // 按P暂停
         if (event->key() == Qt::Key_P) {
             context.status = PAUSE;
             timer.stop();
@@ -104,10 +104,10 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
         case Qt::Key_Down: // 硬着陆
         case Qt::Key_S:
         case Qt::Key_Space:
-    while (context.game.moveDown()) {
-        // 空循环，持续下落
-    }
-    context.game.placeCurrentBlock();
+            while (context.game.moveDown()) {
+                // 空循环，持续下落
+            }
+            context.game.placeCurrentBlock();
             context.game.placeCurrentBlock();
             if (context.game.isGameOver()) {
                 context.status = GAME_OVER;
@@ -115,20 +115,19 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
                 return;
             }
 
+            context.game.clearFullRows();
+            // 更新分数显示
+            setScoreWidgetNumber(abs(context.game.score));
+            context.game.spawnNewBlock();
+            // 更新下一个方块显示
+            setNextBlockWidget(context.game.next_block->color);
 
-    context.game.clearFullRows();
-    // 更新分数显示
-    setScoreWidgetNumber(abs(context.game.score));
-    context.game.spawnNewBlock();
-    // 更新下一个方块显示
-    setNextBlockWidget(context.game.next_block->color);
-
-    if (context.game.isGameOver()) {
-        context.status = GAME_OVER;
-        timer.stop();
-    }
-    syncBoardAndActionToUi();
-    break;
+            if (context.game.isGameOver()) {
+                context.status = GAME_OVER;
+                timer.stop();
+            }
+            syncBoardAndActionToUi();
+            break;
 
         default: // 其他
             QWidget::keyPressEvent(event);
@@ -152,25 +151,27 @@ void Ui::MainWindow::keyPressEvent(QKeyEvent* event) {
             timer.stop();
             syncMenuStatusToUi();
             syncBoardAndActionToUi();
-            if(ui->endMenu) ui->endMenu->setVisible(false);
+            if (ui->endMenu)
+                ui->endMenu->setVisible(false);
             return;
         }
         break;
 
     case GAME_OVER: // 游戏结束状态
-        //游戏结束时，更新最高分
+        // 游戏结束时，更新最高分
         updateHistoryScore(abs(context.game.score));
-        if (event->key() == Qt::Key_Return ||
-            event->key() == Qt::Key_Enter  ||  event->key() == Qt::Key_Escape)
-            // 回车键或Esc键返回主菜单
+        if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter ||
+            event->key() == Qt::Key_Escape)
+        // 回车键或Esc键返回主菜单
         {
-            context.reset();//Context()已经被删了，所以写个reset
+            context.reset(); // Context()已经被删了，所以写个reset
             context.status = MAIN_MENU;
             timer.stop();
             syncMenuStatusToUi();
             syncBoardAndActionToUi();
             // 手动隐藏endMenu,保险
-            if(ui->endMenu) ui->endMenu->setVisible(false);
+            if (ui->endMenu)
+                ui->endMenu->setVisible(false);
             return;
         }
         break;

@@ -13,8 +13,8 @@ enum Status {
     PAUSE,
     GAME_OVER,
     SETTINGS_MENU,
-    LEADERBOARD,   
-    INSTRUCTIONS 
+    LEADERBOARD,
+    INSTRUCTIONS
 }; // TODO: to be coutinued...
 
 class Context {

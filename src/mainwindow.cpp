@@ -9,17 +9,16 @@
 #include "ui_MainWindow.h"
 // #include "loop.cpp"
 #include "Block.h"
+#include "mainwindow.h"
 #include <QGraphicsDropShadowEffect>
 #include <QSettings>
-#include "mainwindow.h"
-
 
 namespace Ui {
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    //在游戏窗口内强制转换为深色模式，看起来更美观
+    // 在游戏窗口内强制转换为深色模式，看起来更美观
     QString darkStyle = R"(
 QWidget {
     background-color: #232323;
@@ -49,14 +48,12 @@ QLCDNumber {
     // 应用到主窗口（包括其子控件）
     this->setStyleSheet(darkStyle);
 
-
     // this->context = Context();
     setNextBlockWidget(context.game.next_block->color);
 
     // connect timer timeout signal
-    connect(&timer, &QTimer::timeout, this, [&]() {
-        onTimeOut(this->context);
-    });
+    connect(&timer, &QTimer::timeout, this,
+            [&]() { onTimeOut(this->context); });
 
     // tests
     // TestCellDrawing();
@@ -64,12 +61,12 @@ QLCDNumber {
     // TestDigitNumber();
     // TestBlockDrawing();
 
-    //初始状态下隐藏死亡菜单和暂停菜单
+    // 初始状态下隐藏死亡菜单和暂停菜单
     ui->endMenu->setVisible(false);
     ui->pauseMenu->setVisible(false);
 
     // “Game Over”标签阴影代码
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect(this);
     effect->setBlurRadius(16);
     effect->setOffset(0, 6);
     effect->setColor(QColor(0, 0, 0, 156));

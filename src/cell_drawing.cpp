@@ -6,8 +6,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QHBoxLayout>
-#include <QWidget>
 #include <QLCDNumber>
+#include <QWidget>
 
 #include <tuple>
 
@@ -128,7 +128,6 @@ void Ui::MainWindow::syncBoardAndActionToUi() {
                 const auto& cell = Block::getBlockByLabel(cell_content.value());
                 setCellColor(cell_pos, std::optional(cell.color));
             }
-
         }
     }
 
@@ -177,7 +176,8 @@ void Ui::MainWindow::toogleEndMenu(int status) {
         ui->endMenu->setVisible(true);
 
         // 显示本局分数
-        ui->labelScoreInfo->setText(QString("本局得分: %1，真是太厉害啦！！！").arg(abs(context.game.score)));
+        ui->labelScoreInfo->setText(QString("本局得分: %1，真是太厉害啦！！！")
+                                        .arg(abs(context.game.score)));
 
         // 停止计时器
         timer.stop();
@@ -187,8 +187,6 @@ void Ui::MainWindow::toogleEndMenu(int status) {
     }
 }
 
-
-
 void Ui::MainWindow::syncMenuStatusToUi() {
     // 控制主菜单（startMenu）
     toogleStartMenu(this->context.status == MAIN_MENU);
@@ -197,7 +195,7 @@ void Ui::MainWindow::syncMenuStatusToUi() {
     toogleEndMenu(this->context.status);
 
     // 只在暂停状态显示pauseMenu
-    if(ui->pauseMenu){
+    if (ui->pauseMenu) {
         ui->pauseMenu->setVisible(this->context.status == PAUSE);
         if (this->context.status == PAUSE)
             ui->pauseMenu->raise(); // 可以让暂停菜单浮到最前

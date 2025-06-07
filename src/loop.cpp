@@ -11,8 +11,7 @@
 // void Game::clearFullRows(); // 检查并消除满行，加分
 // void Game::spawnNewBlock(); // 产生新的当前方块和下一个方块
 
-void Ui::MainWindow::onTimeOut(Context& ctx)
-{
+void Ui::MainWindow::onTimeOut(Context& ctx) {
     if (ctx.game.isGameOver()) {
         ctx.status = GAME_OVER;
         syncBoardAndActionToUi();
@@ -20,7 +19,8 @@ void Ui::MainWindow::onTimeOut(Context& ctx)
     }
 
     // 主循环：自动下落处理
-    bool move_success = ctx.game.moveDown(); // moveDown() 成功返回true，否则为false
+    bool move_success =
+        ctx.game.moveDown(); // moveDown() 成功返回true，否则为false
 
     if (!move_success) {
         // 下落不了，说明到底或被阻挡，需锁定方块并处理消行
@@ -38,7 +38,7 @@ void Ui::MainWindow::onTimeOut(Context& ctx)
             return;
         }
 
-        ctx.game.clearFullRows(); // 有消行要加分的加分
+        ctx.game.clearFullRows();                  // 有消行要加分的加分
         setScoreWidgetNumber(abs(ctx.game.score)); // 更新分数显示
 
         // 生新块

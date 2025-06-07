@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
 
     Ui::MainWindow mainWindow;
 
-    mainWindow.setWindowTitle("Test 1.0.0");
+    mainWindow.setWindowTitle("Tetris Game");
 
     mainWindow.show();
 

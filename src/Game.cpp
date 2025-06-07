@@ -2,9 +2,10 @@
 
 Game::Game()
     : game_board(std::array<std::array<std::optional<char>, game_width>,
-                            game_height>()), m_is_game_over(false),next_block(nullptr),
-    current_action()  // 这里随便初始化一个Block，不影响后续功能
-    {
+                            game_height>()),
+      m_is_game_over(false), next_block(nullptr),
+      current_action() // 这里随便初始化一个Block，不影响后续功能
+{
     // 初始化游戏区域
     for (auto& row : game_board) {
         row.fill(std::nullopt);
@@ -20,7 +21,8 @@ Game::Game()
     if (!next_block) {
         throw std::runtime_error("Get random block failed.");
     }
-    spawnNewBlock();   // spawnNewBlock 会完成 falling_block_buf和current_action.block初始化
+    spawnNewBlock(); // spawnNewBlock 会完成
+                     // falling_block_buf和current_action.block初始化
 
     // setInitAction(next_block); // 旧代码注释掉，不再使用，防止悬空指针
     // 初始化随机数生成器
@@ -50,7 +52,8 @@ std::unique_ptr<Block> Game::getRandomBlock() {
 //     return this->current_action;
 // }
 
-bool Game::isValidAction(const std::unique_ptr<Block>& block, const Pos& anchor) const {
+bool Game::isValidAction(const std::unique_ptr<Block>& block,
+                         const Pos& anchor) const {
     if (block->occupied.empty()) {
         return false; // 无效方块指针
     }
@@ -62,7 +65,7 @@ bool Game::isValidAction(const std::unique_ptr<Block>& block, const Pos& anchor)
             return game_pos.x >= 0 && game_pos.x < game_width &&
                    game_pos.y >= 0 && game_pos.y < game_height &&
                    !game_board.at(game_pos.y).at(game_pos.x).has_value();
-            });
+        });
 }
 
 bool Game::tryMoveLeft() {
@@ -116,12 +119,14 @@ bool Game::tryRotate() {
 }
 
 void Game::placeCurrentBlock() {
-    if (!current_action.block) return;
+    if (!current_action.block)
+        return;
 
     for (const auto& cell_relative_pos : current_action.block->occupied) {
-        Pos board_pos = current_action.anchor + (cell_relative_pos - current_action.block->anchor);
-        if (board_pos.y >= 0 && board_pos.y < game_height &&
-            board_pos.x >= 0 && board_pos.x < game_width) {
+        Pos board_pos = current_action.anchor +
+                        (cell_relative_pos - current_action.block->anchor);
+        if (board_pos.y >= 0 && board_pos.y < game_height && board_pos.x >= 0 &&
+            board_pos.x < game_width) {
             game_board[board_pos.y][board_pos.x] = current_action.block->label;
         }
     }
@@ -141,8 +146,7 @@ void Game::placeCurrentBlock() {
         m_is_game_over = std::any_of(
             game_board.at(critical_row).begin(),
             game_board.at(critical_row).end(),
-            [](const std::optional<char>& cell) { return cell.has_value(); }
-        );
+            [](const std::optional<char>& cell) { return cell.has_value(); });
     }
 }
 
@@ -165,7 +169,8 @@ void Game::clearFullRows() {
     }
 
     const auto rows_cleared = full_lines.size();
-    if (rows_cleared == 0) return;
+    if (rows_cleared == 0)
+        return;
 
     // two pointers
     int write_row = 0;
@@ -192,22 +197,24 @@ void Game::clearFullRows() {
         game_board.at(y).fill(std::nullopt); // 清空剩余行
     }
 
-
     // 更新分数
-    if (rows_cleared == 1) score += 100;
-    else if (rows_cleared == 2) score += 300;
-    else if (rows_cleared == 3) score += 500;
-    else score += 800;
+    if (rows_cleared == 1)
+        score += 100;
+    else if (rows_cleared == 2)
+        score += 300;
+    else if (rows_cleared == 3)
+        score += 500;
+    else
+        score += 800;
 }
 
-bool Game::isGameOver() const {
-    return m_is_game_over;
-}
+bool Game::isGameOver() const { return m_is_game_over; }
 
 void Game::spawnNewBlock() {
     if (!next_block) {
         m_is_game_over = true;
-        if (score >= 0) score = -score;
+        if (score >= 0)
+            score = -score;
         return;
     }
 
@@ -227,7 +234,8 @@ void Game::spawnNewBlock() {
 
     if (!isValidAction(current_action.block, current_action.anchor)) {
         m_is_game_over = true;
-        if (score >= 0) score = -score;
+        if (score >= 0)
+            score = -score;
     }
 
     /*
