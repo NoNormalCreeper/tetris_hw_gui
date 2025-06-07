@@ -5440,25 +5440,8 @@
        <string>历史记录：</string>
       </property>
      </widget>
-     <widget class="QLabel" name="historyScore">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>400</y>
-        <width>151</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"> font-size:36px;qproperty-alignment: AlignRight;</string>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
      <zorder>labelScore</zorder>
      <zorder>labelHistoryScore</zorder>
-     <zorder>historyScore</zorder>
      <zorder>TipP</zorder>
      <zorder>TipEsc</zorder>
      <zorder>titleLabel</zorder>
