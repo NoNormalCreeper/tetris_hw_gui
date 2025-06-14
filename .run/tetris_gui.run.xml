@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="tetris_gui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tetris_gui" TARGET_NAME="tetris_gui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tetris_gui" RUN_TARGET_NAME="tetris_gui">
+    <envs>
+      <env name="CMAKE_PATH" value="D:/Qt/6.9.0/mingw_64/lib/cmake" />
+    </envs>
     <method v="2">
       <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
     </method>

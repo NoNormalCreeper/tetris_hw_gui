@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>图形化概要设计书.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E4%BF%84%E7%BD%97%E6%96%AF%E6%96%B9%E5%9D%97%E5%9B%BE%E5%BD%A2%E5%8C%96%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1%E4%B9%A6">俄罗斯方块图形化概要设计书</h1>
+<h2 id="1-%E5%BC%95%E8%A8%80">1. 引言</h2>
+<h3 id="11-%E6%96%87%E6%A1%A3%E7%9B%AE%E7%9A%84">1.1. 文档目的</h3>
+<p>本文档旨在对基于C++和Qt框架开发的图形化俄罗斯方块游戏项目进行全面而深入的概要设计说明。</p>
+<h3 id="12-%E9%A1%B9%E7%9B%AE%E8%8C%83%E5%9B%B4">1.2. 项目范围</h3>
+<p>该项目是一款功能完备的桌面端俄罗斯方块游戏。其核心功能包括：</p>
+<ul>
+<li>完整的俄罗斯方块游戏逻辑，包括方块的随机生成、下落、移动、旋转。</li>
+<li>图形化的用户界面(UI)，实时渲染游戏棋盘、得分、下一个方块预览等。</li>
+<li>响应式的用户键盘输入控制。</li>
+<li>完善的游戏状态管理，覆盖主菜单、游戏进行、暂停、游戏结束等多种状态。</li>
+<li>本地化的数据持久化，用于记录玩家的历史最高分。</li>
+</ul>
+<h3 id="2-%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1">2. 用户界面设计</h3>
+<p>本俄罗斯方块游戏采用现代简洁的界面布局，深色背景突出游戏内容，提升玩家视觉体验。界面设计要素详述如下：</p>
+<h3 id="21-%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1%E9%A3%8E%E6%A0%BC%E8%AF%B4%E6%98%8E">2.1 总体设计风格说明</h3>
+<p>深色主题突出彩色方块，降低视觉疲劳，提升专注度。
+彩虹色大标题和丰富颜色增强界面活力。
+操作提示直观清晰，用户易于上手。
+样式风格保持统一，保证良好美感和一致性。</p>
+<h3 id="22-%E5%BC%80%E5%A7%8B%E8%8F%9C%E5%8D%95%E7%95%8C%E9%9D%A2">2.2 开始菜单界面</h3>
+<p>初始状态显示“TETRIS”大标题及“俄罗斯方块”副标题。
+提示“按下Enter以开始游戏”。
+详细列出控制键说明：“←→ 或 A/D 左右移动”，“↑ 旋转”，“↓/Space 立刻下落”。
+效果示例：</p>
+<p><img src="C:\Users\lhxbi\Desktop\图形化概要设计\tetris_main.png" alt="开始菜单界面"></p>
+<h3 id="23-%E6%B8%B8%E6%88%8F%E7%95%8C%E9%9D%A2">2.3 游戏界面</h3>
+<p>游戏标题：界面顶部中央用彩色字体显示“TETRIS”，突出游戏品牌感。
+游戏棋盘：正中央为主要操作区，方块以不同颜色显示。
+分数显示：左侧区域有“当前分数”和“历史记录”，采用数码管风格字体，提升科技感。
+下一个方块预览：棋盘右侧，实时显示下一个将要出现的俄罗斯方块。
+操作提示：右侧清晰列出操作说明（如“P 暂停/取消暂停”、“Esc 返回主菜单”）。
+整体布局：信息分区明确，操作直观，便于玩家快速上手。
+效果示例：</p>
+<p><img src="tetris_playing.png" alt="游戏界面"></p>
+<h3 id="24-%E6%B8%B8%E6%88%8F%E6%9A%82%E5%81%9C%E7%95%8C%E9%9D%A2">2.4 游戏暂停界面</h3>
+<p>游戏暂停时在中央弹出半透明遮罩。
+显示大号“暂停中”字样，下方有明确恢复/返回提示（“按P键继续游戏”、“按Esc返回开始菜单”）。
+背景棋盘和方块依然可见，不过逻辑暂停。
+效果示例：</p>
+<p><img src="tetris_pause.png" alt="暂停界面"></p>
+<h3 id="25-%E6%B8%B8%E6%88%8F%E7%BB%93%E6%9D%9F%E7%95%8C%E9%9D%A2">2.5 游戏结束界面</h3>
+<p>游戏终止时中央弹出深色提示框。
+用彩色大字显示“Game Over”与中文“游戏结束”。
+提示可按Enter或Esc返回主菜单，并显示本局得分及鼓励语句（如“本局得分：300，真是太厉害啦！！！”）。
+效果示例：</p>
+<p><img src="tetris_GameOver.png" alt="游戏结束界面"></p>
+<h2 id="3-%E8%87%AA%E5%8A%A8%E6%9C%BA%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE">3. 自动机模型（状态转换图）</h2>
+<p>本项目的俄罗斯方块游戏严格按照状态机模型组织整体流程，确保各界面及操作间转移清晰、稳定，便于维护和扩展。</p>
+<p><img src="状态图.PNG" alt="状态转换图"></p>
+<h3 id="31-%E7%8A%B6%E6%80%81%E5%88%92%E5%88%86">3.1 状态划分</h3>
+<p>游戏核心状态可分为以下几类：</p>
+<ul>
+<li>开始菜单界面 (MAIN_MENU)：游戏启动后默认进入，玩家可浏览 title 与操作说明，静候输入。</li>
+<li>游戏进行中 (PLAYING)：进入游戏界面，玩家通过“上下左右键（WSAD）”操作方块，分数实时刷新。</li>
+<li>暂停界面 (PAUSE)：游戏中按下 P 键可随时切换到暂停界面，所有动作冻结，显示继续/返回提示。</li>
+<li>游戏结束界面 (GAME_OVER)：若方块堆叠超过最大高度，立即进入“游戏结束”界面，展示得分及返回选项。</li>
+</ul>
+<h3 id="32-%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%B3%E7%B3%BB">3.2 状态转移关系</h3>
+<ul>
+<li>主菜单界面 → 游戏进行中
+玩家按 Enter 键，正式开始游戏，进入游戏界面。</li>
+<li>游戏进行中 ↔ 暂停界面
+按 P 键可在“游戏界面”与“暂停界面”间切换。暂停时，所有方块运动停止，界面冻结；再次按 P 可恢复游戏。</li>
+<li>游戏进行中 → 游戏结束界面
+游戏进行过程中，当方块堆叠超出死亡高度时，自动转入“游戏结束”界面，并锁定操作。</li>
+<li>游戏进行中/暂停界面 → 主菜单界面
+在“游戏界面”或“暂停界面”任意时刻可按 Esc 返回主菜单，当前进度丢失。</li>
+<li>游戏结束界面 → 主菜单界面
+游戏结束后，按 Enter 或 Esc 均可回到主菜单，准备新一局挑战。</li>
+<li>任意界面 → 程序终止
+用户可随时点击窗口右上角“关闭”按钮强制结束进程，程序退出。</li>
+</ul>
+<h3 id="33-%E7%8A%B6%E6%80%81%E6%9C%BA%E6%A8%A1%E5%9E%8B%E7%89%B9%E7%82%B9">3.3 状态机模型特点</h3>
+<p>流程单一、状态切换明晰，无多余嵌套，便于后续增加如“设置”、“高级排行榜”等附加功能。
+状态间切换全部由显式的用户输入触发，防止误操作。
+暂停、菜单、游戏结束等状态均用弹窗遮蔽棋盘，确保交互专注、界面规</p>
+<h2 id="2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84">2. 系统架构</h2>
+<p>本游戏采用了一种典型的面向对象的组件化设计，其结构可以看作是<strong>模型-视图-控制器 (MVC)</strong> 模式的变体。</p>
+<ul>
+<li><strong>模型 (Model)</strong>: 主要由 <code>Game</code> 类、<code>Block</code> 类和 <code>Pos</code> 等数据结构组成。<code>Game</code> 类封装了游戏的所有核心规则、数据（如棋盘 <code>game_board</code>）和逻辑，独立于任何UI展示。</li>
+<li><strong>视图 (View)</strong>: 由 <code>MainWindow</code> 类及其关联的UI文件 (<code>ui_MainWindow.h</code>) 构成。它负责将模型中的数据以图形化的方式呈现给用户。<code>cell_drawing.cpp</code> 中的函数专门负责将游戏棋盘数据渲染到UI组件上。</li>
+<li><strong>控制器 (Controller)</strong>: 主要体现在 <code>MainWindow</code> 类的事件处理部分 (<code>control.cpp</code>) 和游戏循环逻辑 (<code>loop.cpp</code>) 中。它接收用户的输入（键盘事件），并调用模型的方法来更新游戏状态，同时通知视图刷新显示。</li>
+</ul>
+<p>此外，引入了 <code>Context</code> 类作为<strong>状态管理器</strong>，它持有模型 (<code>Game</code>) 和游戏整体状态 (<code>Status</code>) 的实例，在控制器和模型之间起到了重要的协调作用。</p>
+<h3 id="41-%E6%9E%B6%E6%9E%84%E6%B5%81%E7%A8%8B%E5%9B%BE">4.1. 架构流程图</h3>
+<p>以下流程图直观地展示了游戏的核心逻辑流程，特别是玩家的一次操作（如移动、旋转）在系统内部的实现。</p>
+<p><strong>图解</strong>:</p>
+<ol>
+<li><strong>用户输入 (Action)</strong>: 玩家通过键盘输入一个动作（左移、右移、旋转、下落）。</li>
+<li><strong>控制器处理</strong>: <code>MainWindow::keyPressEvent</code> 接收到事件，并调用 <code>Game</code> 类中对应的尝试移动方法（如 <code>tryMoveLeft</code>）。</li>
+<li><strong>模型更新</strong>: <code>Game</code> 类检查该移动是否有效 (<code>isValidAction</code>)。如果有效，则更新 <code>current_action</code> 中的方块位置 (<code>anchor</code>)。</li>
+<li><strong>视图同步</strong>: 控制器调用 <code>syncBoardAndActionToUi</code>，该函数会清空旧位置的方块，并在新位置重新绘制，从而完成视图的更新。</li>
+</ol>
+<h2 id="5-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3">5. 核心模块详解</h2>
+<h3 id="51-%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1-block-pos-action">5.1. 高级数据结构设计 (<code>Block</code>, <code>Pos</code>, <code>Action</code>)</h3>
+<ul>
+<li><strong>常量设计</strong>
+<ul>
+<li><strong>游戏区域尺寸常量</strong>
+<ul>
+<li>在 Game.h 中，定义了游戏区域高度（game_height=20）、宽度（game_width=10）以及判定堆叠溢出高度（death_height=16）。</li>
+</ul>
+</li>
+<li><strong>方块类型静态定义</strong>
+<ul>
+<li>在 k_Block 命名空间内，定义了所有七种俄罗斯方块的颜色、结构、锚点及集合，便于统一引用和查找。</li>
+</ul>
+</li>
+<li><strong>全局变量与系统状态</strong>
+<ul>
+<li>代码中无裸全局变量，所有状态均封装于类成员。每个核心UI窗口(MainWindow)有自己的 Context 作为游戏现场总控。</li>
+<li>游戏状态（enum Status）全局唯一，管理着主菜单、进行、暂停、结束等阶段。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>主要结构体/类设计</strong>
+<ul>
+<li><strong>Pos</strong>
+<ul>
+<li>坐标点的二维结构，支持加减与等值比较。用于描述方块单元的绝对或相对位置。</li>
+</ul>
+</li>
+<li><strong>Block</strong>
+<ul>
+<li>描述一种方块的“形状”，含唯一label、色彩、相对占用坐标数组和旋转锚点。集成了旋转功能与类型查找。所有支持的方块类型皆静态常量地定义于 k_Block。</li>
+</ul>
+</li>
+<li><strong>Action</strong>
+<ul>
+<li>当前动作状态，含一个活动方块（动态分配）与anchor点，用于管理移动、旋转等状态。</li>
+</ul>
+</li>
+<li><strong>Game</strong>
+<ul>
+<li>封装了一局游戏场景，含分数、棋盘（二维optional数组）、下一个方块（unique_ptr）、当前操作（Action）、结束标志等。</li>
+<li>管理所有游戏主循环的核心算法，包括方块下落、移动、放置、消行与新方块生成。</li>
+<li>封装专用的随机数生成器，保证下一块、落子等行为的随机性。</li>
+</ul>
+</li>
+<li><strong>Context</strong>
+<ul>
+<li>系统全局运行状态（游戏进度、界面控制、历史数据等）的总控对象。</li>
+<li>管理Game实例、数据仓库（Repository）、运行阶段等。</li>
+</ul>
+</li>
+<li><strong>Repository/RepoData</strong>
+<ul>
+<li>负责游戏过程数据持久化的接口（目前主要定义框架及place holder）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="52-%E4%B8%BB%E7%AA%97%E5%8F%A3%E4%B8%8E%E5%BA%94%E7%94%A8%E5%85%A5%E5%8F%A3-mainwindow-maincpp">5.2. 主窗口与应用入口 (<code>MainWindow</code>, <code>main.cpp</code>)</h3>
+<p>作为应用的核心，<code>MainWindow</code> 类承担了视图和控制器的双重职责。</p>
+<ul>
+<li><strong>入口点</strong>: <code>main.cpp</code> 是程序的入口，它创建了 <code>QApplication</code> 和 <code>MainWindow</code> 的实例，并启动了Qt的事件循环。</li>
+<li><strong>UI初始化</strong>: <code>MainWindow</code> 的构造函数负责初始化UI组件、设置窗口样式（如深色模式）、连接信号与槽（特别是 <code>QTimer</code> 的 <code>timeout</code> 信号到 <code>onTimeOut</code> 槽函数），并隐藏初始状态下不需要的菜单（如游戏结束菜单和暂停菜单）。</li>
+<li><strong>渲染管理</strong>: 包含了一系列UI渲染函数（大部分实现在 <code>cell_drawing.cpp</code>），如：
+<ul>
+<li><code>setCellColor</code>: 设置棋盘上单个单元格的颜色或图片。</li>
+<li><code>setNextBlockWidget</code>: 更新“下一个方块”预览区的显示。</li>
+<li><code>setScoreWidgetNumber</code>: 更新分数显示。</li>
+<li><code>syncBoardAndActionToUi</code>: 核心渲染函数，遍历整个 <code>game.game_board</code> 和当前的 <code>current_action</code>，将游戏状态完整地绘制到屏幕上。</li>
+</ul>
+</li>
+<li><strong>菜单管理</strong>: <code>syncMenuStatusToUi</code> 函数根据 <code>context.status</code> 的值，智能地显示或隐藏主菜单、暂停菜单和游戏结束菜单。</li>
+</ul>
+<h3 id="53-%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86-context">5.3. 游戏状态管理 (<code>Context</code>)</h3>
+<p><code>Context</code> 类是一个高级状态容器，它将游戏的核心组件聚合在一起，简化了状态的管理和传递。</p>
+<ul>
+<li><strong>成员</strong>:
+<ul>
+<li><code>Status status</code>: 一个枚举类型，定义了 <code>MAIN_MENU</code>, <code>PLAYING</code>, <code>PAUSE</code>, <code>GAME_OVER</code> 等多种游戏状态。</li>
+<li><code>Game game</code>: 游戏逻辑核心的实例。</li>
+<li><code>Repository repository</code>: 数据持久化对象的实例。</li>
+</ul>
+</li>
+<li><strong>职责</strong>:
+<ul>
+<li><strong>状态聚合</strong>: 将游戏的所有关键数据和状态集中管理。</li>
+<li><strong>重置功能</strong>: <code>reset()</code> 方法能将游戏恢复到初始状态，包括重置游戏棋盘、分数、游戏状态标记，并重新生成方块。这在重新开始游戏或从游戏结束返回主菜单时至关重要。</li>
+</ul>
+</li>
+</ul>
+<h3 id="54-%E6%A0%B8%E5%BF%83%E6%B8%B8%E6%88%8F%E9%80%BB%E8%BE%91-game">5.4. 核心游戏逻辑 (<code>Game</code>)</h3>
+<p><code>Game</code> 类是整个项目的引擎，它实现了俄罗斯方块的全部玩法规则，并且与UI完全解耦。</p>
+<ul>
+<li><strong>数据成员</strong>:
+<ul>
+<li><code>game_board</code>: 一个 <code>std::array&lt;std::array&lt;std::optional&lt;char&gt;, game_width&gt;, game_height&gt;</code>，是游戏棋盘的内存表示。<code>std::optional&lt;char&gt;</code> 精妙地表示了“这个格子为空”或“这个格子被某个方块占据”。</li>
+<li><code>current_action</code>: <code>Action</code> 结构体实例，保存了当前正在下落的方块 (<code>block</code>) 及其在棋盘上的位置 (<code>anchor</code>)。</li>
+<li><code>next_block</code>: <code>std::unique_ptr&lt;Block&gt;</code>，指向下一个将要出场的方块。使用智能指针有效地避免了内存泄漏和悬空指针问题。</li>
+<li><code>score</code>: 记录当前分数。</li>
+<li><code>m_is_game_over</code>: 一个布尔标志，用于标记游戏是否结束。</li>
+</ul>
+</li>
+<li><strong>核心方法</strong>:
+<ul>
+<li><code>spawnNewBlock</code>: 当一个方块固定后，此方法被调用。它将 <code>next_block</code> 移动到 <code>current_action</code>，然后生成一个新的 <code>next_block</code>。同时，它会检查新生成的方块是否一出现就与已有方块重叠，如果是，则游戏结束。</li>
+<li><code>isValidAction</code>: 这是一个关键的碰撞检测函数。它检查一个给定的方块在指定位置是否合法（即没有超出边界，也没有与已固定的方块重叠）。</li>
+<li><strong>方块操作</strong>: <code>tryMoveLeft()</code>, <code>tryMoveRight()</code>, <code>tryRotate()</code>, <code>moveDown()</code> 都依赖 <code>isValidAction</code> 来判断操作是否可以执行。</li>
+<li><code>placeCurrentBlock</code>: 当方块无法再下落时，此方法将其“固化”到 <code>game_board</code> 中，即将方块的 <code>label</code> 写入棋盘对应的格子。</li>
+<li><code>clearFullRows</code>: 检查棋盘中所有行，如果某行被完全填满，则消除该行，上方的所有行下移，并根据消除的行数增加分数。</li>
+</ul>
+</li>
+</ul>
+<h3 id="55-%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5%E4%B8%8E%E6%8E%A7%E5%88%B6-controlcpp">5.5. 用户输入与控制 (<code>control.cpp</code>)</h3>
+<p>这部分代码专门处理用户交互。</p>
+<ul>
+<li><strong><code>keyPressEvent</code></strong>: 这是 <code>MainWindow</code> 中重写的事件处理函数。它使用一个 <code>switch</code> 语句来根据当前的 <code>context.status</code> 决定如何响应按键。</li>
+<li><strong>状态机逻辑</strong>:
+<ul>
+<li><code>PLAYING</code>: 响应 <code>W/A/S/D</code> 和方向键来移动和旋转方块，<code>Space</code> 用于硬着陆，<code>P</code> 用于暂停，<code>ESC</code> 用于退出。</li>
+<li><code>PAUSE</code>: <code>P</code> 或回车键恢复游戏。</li>
+<li><code>MAIN_MENU</code>: 回车键开始游戏。</li>
+<li><code>GAME_OVER</code>: 回车或 <code>ESC</code> 返回主菜单。</li>
+</ul>
+</li>
+<li><strong>即时反馈</strong>: 每次有效的用户操作后，都会立即调用 <code>syncBoardAndActionToUi</code> 来刷新屏幕，为玩家提供流畅的操作体验。</li>
+</ul>
+<h3 id="56-%E6%B8%B8%E6%88%8F%E5%BE%AA%E7%8E%AF-loopcpp">5.6. 游戏循环 (<code>loop.cpp</code>)</h3>
+<p>这是驱动游戏自动进行的核心。</p>
+<ul>
+<li><strong><code>onTimeOut</code></strong>: 该函数与 <code>QTimer::timeout</code> 信号连接。每次被调用时，代表一个游戏“滴答”(tick)。</li>
+<li><strong>循环逻辑</strong>:
+<ol>
+<li>检查 <code>isGameOver()</code>，如果游戏已结束，则更新状态并返回。</li>
+<li>调用 <code>game.moveDown()</code> 尝试使方块下落一格。</li>
+<li>如果下落失败（<code>moveDown</code> 返回 <code>false</code>），说明方块已触底。</li>
+<li>执行一系列连锁操作：<code>placeCurrentBlock()</code> -&gt; <code>clearFullRows()</code> -&gt; <code>spawnNewBlock()</code>。</li>
+<li>在每一步可能导致游戏结束的操作后（如 <code>placeCurrentBlock</code> 和 <code>spawnNewBlock</code>），都会再次检查 <code>isGameOver()</code>。</li>
+<li>最后，调用 <code>syncBoardAndActionToUi</code> 更新界面显示。</li>
+</ol>
+</li>
+</ul>
+<h3 id="57-%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96-repository-qsettings">5.7. 数据持久化 (<code>Repository</code>, <code>QSettings</code>)</h3>
+<ul>
+<li><strong><code>Repository</code> 类</strong>: 设计上用于处理文件的读写，定义了 <code>read</code> 和 <code>write</code> 接口，但从代码实现来看，实际的持久化功能由 <code>QSettings</code> 完成。</li>
+<li><strong><code>QSettings</code></strong>: 在 <code>mainwindow.cpp</code> 中，<code>saveHistoryScore</code> 和 <code>loadHistoryScore</code> 函数使用 <code>QSettings</code> 来在本地保存和读取历史最高分。<code>QSettings</code> 是Qt提供的跨平台持久化存储方案，比直接读写JSON文件更简单方便。</li>
+</ul>
+<h3 id="58%E8%BD%AF%E4%BB%B6%E7%BB%93%E6%9E%84%E5%9B%BE">5.8.软件结构图：</h3>
+<p><img src="软件结构图.PNG" alt="软件结构图"></p>
+<h2 id="6-%E6%96%87%E4%BB%B6%E5%8F%8A%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90">6. 文件及函数分析</h2>
+<pre class="hljs"><code><div>| 源文件           | 源文件说明       | 函数             | 功能+参数+返回值                                              |
+|-------------------|------------------|-------------------|-------------------------------------------------------------|
+| Block.h/.cpp      | 方块描述模块     | getBlockByLabel   | 通过label查找方块类型 (label: char) → Block引用             |
+|                   |                  | rotate            | 方块顺时针旋转 (无参数) → Block指针                         |
+|                   |                  | Block构造/成员    | 支持各属性初始化 (label, color, occupied, anchor) → 见声明   |
+| Pos.h             | 坐标结构体       | operator重载      | 坐标加减与比较 (另一个Pos) → Pos、bool                      |
+| Game.h/.cpp       | 游戏主逻辑       | reset             | 重置游戏状态和数据 (无参数) → 无                             |
+|                   |                  | tryMoveLeft/Right | 方块向左/右移动一格 (无参数) → bool                          |
+|                   |                  | tryRotate         | 当前方块旋转 (无参数) → bool                                 |
+|                   |                  | moveDown          | 下移一格/检测落地 (无参数) → bool                            |
+|                   |                  | placeCurrentBlock | 固定方块到棋盘 (无参数) → 无                                 |
+|                   |                  | clearFullRows     | 消除满行并计分 (无参数) → 无                                 |
+|                   |                  | isGameOver        | 是否结束 (无参数) → bool                                     |
+|                   |                  | spawnNewBlock     | 生成下一个并切换当前方块 (无参数) → 无                       |
+|                   |                  | setCurrentBlock   | 设置活动方块及位置 (Block指针, anchor) → 无                  |
+| Context.h/.cpp    | 游戏上下文       | reset             | 重设场景和仓库 (无参数) → 无                                 |
+| Repository.h/.cpp | 持久化接口       | read/write        | 读写持久化数据 (无参数) → 无                                 |
+|                   |                  | reset             | 重设数据存储区 (无参数) → 无                                 |
+| mainwindow.h/.cpp | UI主窗口         | MainWindow构造/析构 | 初始化UI/刷新/连接信号 (parent等) → 无                    |
+|                   |                  | sync...系列       | 同步棋盘、菜单、分数、下一个方块等 (无/相关参数) → 无         |
+|                   |                  | setCellColor      | 设置单元格颜色 (位置, 颜色) → 无                             |
+|                   |                  | keyPressEvent     | 处理键盘事件 (QKeyEvent*) → 无                               |
+|                   |                  | onTimeOut         | 定时主循环、自动下落 (Context&amp;) → 无                         |
+| control.cpp       | 主输入响应       | keyPressEvent     | 处理不同游戏状态下的键盘事件 (QKeyEvent*) → 无               |
+|                   |                  | keyReleaseEvent   | 按键释放事件 (QKeyEvent*) → 无                              |
+| loop.cpp          | 主循环处理       | onTimeOut         | 自动下落、锁定、新块、同步显示 (Context&amp;) → 无               |
+| main.cpp          | 程序入口         | main              | 初始化Qt应用和主窗口 (argc, argv) → int                      |
+
+
+</div></code></pre>
+<h2 id="7-%E5%85%B3%E9%94%AE%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90">7. 关键算法分析</h2>
+<h3 id="71-%E4%B8%BB%E5%BE%AA%E7%8E%AF%E5%AE%9A%E6%97%B6%E9%A9%B1%E5%8A%A8">7.1. 主循环（定时驱动）</h3>
+<pre class="hljs"><code><div>while (游戏状态 != GAME_OVER) {
+    if (到达时间间隔) {
+        if (游戏已结束) {
+            状态设为 GAME_OVER
+            刷新显示
+        } else {
+            if (方块能下落) {
+                当前方块向下移动一格
+            } else {
+                固定方块到棋盘
+                if (游戏已结束) {
+                    状态设为 GAME_OVER
+                    刷新显示
+                } else {
+                    检查消除满行
+                    加分
+                    刷新分数显示
+                    生成新方块并展示
+                }
+            }
+        }
+        刷新棋盘显示
+    }
+}
+</div></code></pre>
+<h3 id="72-%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%A0%B8%E5%BF%83">7.2. 键盘事件处理核心</h3>
+<pre class="hljs"><code><div>on keyPressEvent(event):
+    switch(当前状态):
+        case MAIN_MENU:
+            if 回车: 状态-&gt;PLAYING, 启动游戏主循环
+        case PLAYING:
+            if P: 状态-&gt;PAUSE, 暂停计时器
+            if ESC: 状态-&gt;MAIN_MENU, 游戏重置
+            if 左/右键: 方块尝试移动
+            if 上键/旋转键: 方块尝试旋转
+            if 下键/空格: 方块持续下落至底、锁定
+        case PAUSE:
+            if P/回车: 恢复游戏
+            if ESC: 状态-&gt;MAIN_MENU, 游戏重置
+        case GAME_OVER:
+            if 回车/ESC: 状态-&gt;MAIN_MENU, 游戏重置
+</div></code></pre>
+<h3 id="73-%E6%96%B9%E5%9D%97%E6%97%8B%E8%BD%AC">7.3. 方块旋转</h3>
+<pre class="hljs"><code><div>rotate(block):
+    for 每个已占用单元格pos:
+        计算相对锚点(x, y)
+        新位置 (锚点.x - (pos.y - anchor.y),  锚点.y + (pos.x - anchor.x))
+    生成新 Block 返回
+</div></code></pre>
+<h3 id="74-%E5%88%A4%E5%AE%9A%E6%94%BE%E7%BD%AE%E6%98%AF%E5%90%A6%E6%9C%89%E6%95%88">7.4. 判定放置是否有效</h3>
+<pre class="hljs"><code><div>isValidAction(block, anchor):
+    for block.occupied:
+        转成棋盘坐标
+        若越界或被占用 return false
+    return true
+</div></code></pre>
+<h2 id="8-%E6%80%BB%E7%BB%93">8. 总结</h2>
+<p>该俄罗斯方块项目展现了一个结构清晰、功能完备、代码健壮的软件设计。通过将UI、游戏逻辑和状态管理进行有效解耦，项目变得易于理解、扩展和维护。智能指针的广泛使用、基于状态机的事件处理以及高效的算法选择，共同构成了一个高质量的桌面游戏应用。本文档对该设计的深入剖析可为后续所有相关工作提供坚实的基础。</p>
+
+</body>
+</html>
